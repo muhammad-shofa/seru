@@ -34,6 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             // Mengecek jika kolom dokumentasi_tl kosong
             if (empty($row['dokumentasi_tl'])) {
                 $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
+            } else {
+                $value_dokumentasi_tl = $row['dokumentasi_tl'];
+                $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="#0" class="btn btn-success btn-sm" download title="Download Gambar">
+                <i class="fas fa-download"></i></a>';
             }
 
             $row['action'] = '<button type="button" class="edit btn btn-primary" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-pen"></i></button>
@@ -49,29 +53,40 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_POST['simpanUpdate'])) {
         // Ambil data dari form
         $temuan_id = $_POST['temuan_id'];
-        $rekomendasi_tindak_lanjut = $_POST['rekomendasi_tindak_lanjut'];
+        $dokumentasi_tl = $_POST['dokumentasi_tl'];
         $status = $_POST['status'];
-        $image_dokumentasi = $_FILES['dokumentasi_tl']['name'];
-        $tmp = $_FILES['dokumentasi_tl']['tmp_name'];
 
-        // Tentukan lokasi penyimpanan file menggunakan path absolut
-        $location = "../../uploads/" . basename($image_dokumentasi);
+        if (!empty($_FILES['dokumentasi_gambar'])) {
+            $dokumentasi_gambar = $_FILES['dokumentasi_gambar']['name'];
+            $tmp = $_FILES['dokumentasi_gambar']['tmp_name'];
 
-        // Pindahkan file ke folder tujuan
-        if (move_uploaded_file($tmp, $location)) {
-            // Jika file berhasil diupload, lanjutkan untuk update data di database
-            $stmt = $connected->prepare($update->selectTable($tableName = "temuan", $condition = "rekomendasi_tindak_lanjut = ?, status = ?, dokumentasi_tl = ? WHERE temuan_id = ?"));
-            $stmt->bind_param("sssi", $rekomendasi_tindak_lanjut, $status, $location, $temuan_id);
+            // lokasi gambar
+            $location = "../../uploads/" . basename($dokumentasi_gambar);
+
+            // Pindahkan file ke folder tujuan
+            if (move_uploaded_file($tmp, $location)) {
+                $stmt = $connected->prepare($update->selectTable($tableName = "temuan", $condition = "status = ?, dokumentasi_tl = ?, dokumentasi_gambar = ? WHERE temuan_id = ?"));
+                $stmt->bind_param("sssi", $status, $dokumentasi_tl, $location, $temuan_id);
+
+                if ($stmt->execute()) {
+                    echo "Berhasil mengupdate data dan file.";
+                } else {
+                    echo "Gagal mengupdate: " . $stmt->error;
+                }
+
+                $stmt->close();
+            } else {
+                echo "Gagal mengunggah file.";
+            }
+        } else {
+            $stmt = $connected->prepare($update->selectTable($tableName = "temuan", $condition = "status = ?, dokumentasi_tl = ? WHERE temuan_id = ?"));
+            $stmt->bind_param("ssi", $status, $dokumentasi_tl, $temuan_id);
 
             if ($stmt->execute()) {
-                echo "Berhasil mengupdate data dan file.";
+                echo "Berhasil mengupdate data.";
             } else {
                 echo "Gagal mengupdate: " . $stmt->error;
             }
-
-            $stmt->close();
-        } else {
-            echo "Gagal mengunggah file.";
         }
     } else {
         echo "tidak ditemukan submitUpdate";

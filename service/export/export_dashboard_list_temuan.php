@@ -34,7 +34,7 @@
         <?php
         include "../service/connection.php";
         include "../service/select.php";
-        $sql_pengaduan = $connected->query($select->selectTable($tableName = "pengaduan"));
+        $sql_pengaduan = $connected->query($select->selectTable($tableName = "temuan"));
         if ($sql_pengaduan->num_rows > 0) {
             $no = 1;
 
@@ -42,11 +42,18 @@
                 ?>
                 <tr>
                     <td><?= $no++ ?></td>
-                    <td><?= $d['pengirim'] ?></td>
-                    <td><?= $d['judul'] ?></td>
-                    <td><?= $d['aduan'] ?></td>
-                    <td><?= $d['status_dibaca'] ?></td>
-                    <td><?= $d['tanggal_pengaduan'] ?></td>
+                    <td><?= $d['tanggal'] ?></td>
+                    <td><?= $d['sumber_temuan'] ?></td>
+                    <td><?= $d['temuan'] ?></td>
+                    <td><?= $d['rekomendasi_tindak_lanjut'] ?></td>
+                    <td><?= $d['status'] ?></td>
+                    <td><?= $d['pic'] ?></td>
+                    <td><?= $d['deadline'] ?></td>
+                    <td><?= $d['dokumentasi_tl'] ?></td>
+                    <td><?= $d['keterangan'] ?></td>
+                    <!-- last update belum ada datanya -->
+                    <td><?= $d['last_update'] ?></td>
+                    <td><?= $d['dokumentasi_gambar'] ?></td>
                 </tr>
                 <?php
             }

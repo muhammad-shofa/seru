@@ -11,35 +11,6 @@ if ($_SESSION["is_login"] == false) {
     header("location: ../index.php");
 }
 
-
-// zzzzzzzzzzzzz
-// ZZZZZZZZZZZZZZZZZZ
-// if (isset($_POST['submitUpdate'])) {
-//     $rekomendasi_tindak_lanjut = $_POST['rekomendasi_tindak_lanjut'];
-//     $status = $_POST['status'];
-//     $image_dokumentasi = $_FILES['dokumentasi_tl']['name'];
-//     $tmp = $_FILES['dokumentasi_tl']['tmp_name'];
-
-//     $stmt = $connected->prepare("UPDATE temuan SET rekomendasi_tindak_lanjut = ?, status = ?, dokumentasi_tl = ? WHERE temuan_id = ?");
-//     $stmt->bind_param("sssi", $rekomendasi_tindak_lanjut, $status, $image_dokumentasi, $temuan_id);
-
-//     $location = "../uploads/" . basename($image_dokumentasi); // Lokasi penyimpanan file
-
-//     if ($stmt->execute()) {
-//         echo "Berhasil mengupdate execute";
-//         if (move_uploaded_file($tmp, $location)) {
-//             echo "Berhasil mengupdate ke db dan memindah file ke folder";
-//             // echo "<script>alert('data berhasil ditambahkan');window.location.replace('index.php')</script>";
-//         } else {
-//             echo "Gagal memindahkan file ke folder";
-//         }
-//     } else {
-//         echo "Gagal mengupdate: " . $stmt->error;
-//     }
-// } else {
-//     echo "tidak ditemukan submitUpdate";
-// }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -153,15 +124,14 @@ if ($_SESSION["is_login"] == false) {
                                         <form id="formUpdate" method="POST" enctype="multipart/form-data">
                                             <div class="modal-body">
                                                 <!-- method="post" -->
-                                                <input type="text" id="update_temuan_id" name="temuan_id">
+                                                <input type="hidden" id="update_temuan_id" name="temuan_id">
                                                 <div class="form-floating">
-                                                    <label for="update_rekomendasi_tindak_lanjut">Tindak Lanjut
+                                                    <label for="update_dokumentasi_tl">Tindak Lanjut
                                                         Perbaikan
                                                     </label>
                                                     <textarea class="form-control"
                                                         placeholder="Tindak lanjut perbaikan ..."
-                                                        id="update_rekomendasi_tindak_lanjut"
-                                                        name="rekomendasi_tindak_lanjut"
+                                                        id="update_dokumentasi_tl" name="dokumentasi_tl"
                                                         style="height: 200px; resize: none;"></textarea>
                                                 </div>
                                                 <div class="form-group">
@@ -174,10 +144,10 @@ if ($_SESSION["is_login"] == false) {
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="update_dokumentasi_tl"
+                                                    <label for="update_dokumentasi_gambar"
                                                         class="form-label">Dokumentasi</label>
-                                                    <input class="form-control" type="file" id="update_dokumentasi_tl"
-                                                        name="dokumentasi_tl">
+                                                    <input class="form-control" type="file"
+                                                        id="update_dokumentasi_gambar" name="dokumentasi_gambar">
                                                 </div>
                                             </div>
                                             <div class="modal-footer justify-content-between">
@@ -325,9 +295,9 @@ if ($_SESSION["is_login"] == false) {
                     dataType: 'json',
                     success: function (data) {
                         $('#update_temuan_id').val(data.temuan_id);
-                        $('#update_rekomendasi_tindak_lanjut').val(data.rekomendasi_tindak_lanjut);
-                        $('#update_status').val(data.status);
                         $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
+                        $('#update_status').val(data.status);
+                        $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
                         $('#modalUpdate').modal('show');
                     }
                 });
