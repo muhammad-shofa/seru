@@ -60,13 +60,13 @@ if ($_SESSION["is_login"] == false) {
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="../service/export/export_dashboard_list_temuan.php"
+                        <!-- <a href="../service/export/export_dashboard_list_temuan.php"
                             class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
                     </div>
 
                     <!-- Begin of listTemuan -->
-                    <div class="p-2" id="listTemuanContent">
+                    <div class="p-2" id="listTemuanContent" style="display:none;">
                         <!-- DataTales -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -88,23 +88,8 @@ if ($_SESSION["is_login"] == false) {
                                                 <th>Deadline</th>
                                                 <th>Dokumentasi TL</th>
                                                 <th>Keterangan</th>
-                                                <!-- <th>Aksi</th> -->
                                             </tr>
                                         </thead>
-                                        <!-- <tfoot>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Tanggal</th>
-                                                <th>Sumber Temuan</th>
-                                                <th>Temuan</th>
-                                                <th>Rekomendasi Tindak Lanjut</th>
-                                                <th>Status</th>
-                                                <th>PIC</th>
-                                                <th>Deadline</th>
-                                                <th>Dokumentasi TL</th>
-                                                <th>Keterangan</th>
-                                            </tr>
-                                        </tfoot> -->
                                         <tbody>
                                         </tbody>
                                     </table>
@@ -167,12 +152,149 @@ if ($_SESSION["is_login"] == false) {
                             </div> -->
                         </div>
                     </div>
-
                     <!-- End of listTemuan -->
 
-                    <div class="p-2" id="createNewContent" style="display:none;">
-                        <h2>Ini create new main dashboard</h2>
+                    <!-- Begin of Create New -->
+                    <div class="p-2" id="createNewContent">
+                        <!-- DataTales -->
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Create New</h6>
+
+                                <!-- btn trigger modal tambah berita -->
+                                <button type="button" class="btn btn-primary my-2" data-toggle="modal"
+                                    data-target="#modalTambah">
+                                    Tambah Temuan
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered text-dark" id="createNewTable" width="100%"
+                                        cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Tanggal</th>
+                                                <th>Sumber Temuan</th>
+                                                <th>Temuan</th>
+                                                <th>Rekomendasi Tindak Lanjut</th>
+                                                <th>Status</th>
+                                                <th>PIC</th>
+                                                <th>Deadline</th>
+                                                <th>Dokumentasi TL</th>
+                                                <th>Keterangan</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Modal create new -->
+                            <div class="modal fade" id="modalTambah">
+                                <div class="modal-dialog">
+                                    <div class="modal-content text-dark">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Tambah Temuan</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form id="formTambah" method="POST">
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="tambah_tanggal">Tanggal :</label>
+                                                    <input type="date" class="form-control" id="tambah_tanggal"
+                                                        name="tambah_tanggal">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tambah_sumber_temuan">Sumber Temuan :</label>
+                                                    <select class="form-control select2" name="tambah_sumber_temuan"
+                                                        id="tambah_sumber_temuan" style="width: 100%;">
+                                                        <option value="MWT">MWT</option>
+                                                        <option value="MOD">MOD</option>
+                                                        <option value="PATUH">PATUH</option>
+                                                        <option value="NOTULEN_RAPAT">NOTULEN RAPAT</option>
+                                                        <option value="LAINNYA">LAINNYA</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <label for="tambah_temuan">
+                                                        Temuan :
+                                                    </label>
+                                                    <textarea class="form-control" id="tambah_temuan"
+                                                        name="tambah_temuan"
+                                                        style="height: 85px; resize: none;"></textarea>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <label for="tambah_rekomendasi_tindak_lanjut">
+                                                        Rekomendasi Tindak Lanjut :
+                                                    </label>
+                                                    <textarea class="form-control" id="tambah_rekomendasi_tindak_lanjut"
+                                                        name="tambah_rekomendasi_tindak_lanjut"
+                                                        style="height: 85px; resize: none;"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tambah_status">Status :</label>
+                                                    <select class="form-control select2" name="tambah_status"
+                                                        id="tambah_status" style="width: 100%;">
+                                                        <option value="OPEN">OPEN</option>
+                                                        <option value="CLOSE">CLOSE</option>
+                                                        <option value="ON_PROGRESS">ON PROGRESS</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tambah_pic">PIC :</label>
+                                                    <select class="form-control select2" name="tambah_pic"
+                                                        id="tambah_pic" style="width: 100%;">
+                                                        <option value="RSD">RSD</option>
+                                                        <option value="PMS">PMS</option>
+                                                        <option value="HSSE">HSSE</option>
+                                                        <option value="SSGA">SSGA</option>
+                                                        <option value="QQ">QQ</option>
+                                                        <option value="FLEET">FLEET</option>
+                                                        <option value="ALL">ALL</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tambah_deadline">Deadline :</label>
+                                                    <input type="date" class="form-control" id="tambah_deadline"
+                                                        name="tambah_deadline">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tambah_dokumentasi_tl">Dokumentasi TL :</label>
+                                                    <input type="text" class="form-control" id="tambah_dokumentasi_tl"
+                                                        name="tambah_dokumentasi_tl" disabled>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <label for="tambah_keterangan">
+                                                        Keterangan :
+                                                    </label>
+                                                    <textarea class="form-control" id="tambah_keterangan"
+                                                        name="tambah_keterangan"
+                                                        style="height: 85px; resize: none;"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-success" name="tambahTemuan"
+                                                    id="tambahTemuan">Tambahkan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- Modal update End -->
+
+                            <!-- <div class="update-container">
+
+                            </div> -->
+                        </div>
                     </div>
+                    <!-- End of Create New -->
                 </div>
 
                 <!-- Footer -->
@@ -245,7 +367,9 @@ if ($_SESSION["is_login"] == false) {
 
     <script>
         $(document).ready(function () {
-            var table = $('#temuanTable').DataTable({
+
+            // AJAX TABLE LIST TEMUAN
+            var tableListTemuan = $('#temuanTable').DataTable({
                 "ajax": "../service/ajax/ajax-temuan.php",
                 "columns": [{
                     "data": "no"
@@ -277,11 +401,6 @@ if ($_SESSION["is_login"] == false) {
                 {
                     "data": "keterangan"
                 }
-                    // {
-                    //     "data": "action",
-                    //     "orderable": true,
-                    //     "searchable": true
-                    // }
                 ],
                 "responsive": true
             });
@@ -303,9 +422,7 @@ if ($_SESSION["is_login"] == false) {
                 });
             });
 
-
-
-
+            // Simpan update Dokumentasi TL
             $('#simpanUpdate').click(function () {
                 var formData = new FormData($('#formUpdate')[0]);
 
@@ -313,13 +430,13 @@ if ($_SESSION["is_login"] == false) {
 
                 $.ajax({
                     url: '../service/ajax/ajax-temuan.php',
-                    type: 'POST', // Karena `PUT` secara teknis lebih kompleks untuk pengiriman form, gunakan `POST` dengan
+                    type: 'POST',
                     data: formData,
                     contentType: false,
                     processData: false,
                     success: function (response) {
                         $('#modalUpdate').modal('hide');
-                        table.ajax.reload();
+                        tableListTemuan.ajax.reload();
                         $('#formUpdate')[0].reset();
                         alert(response);
                     },
@@ -328,6 +445,84 @@ if ($_SESSION["is_login"] == false) {
                     }
                 });
             });
+
+
+            // AJAX TABLE CREATE NEW
+            var tableListTemuan = $('#createNewTable').DataTable({
+                "ajax": "../service/ajax/ajax-temuan.php",
+                "columns": [{
+                    "data": "no"
+                },
+                {
+                    "data": "tanggal"
+                },
+                {
+                    "data": "sumber_temuan"
+                },
+                {
+                    "data": "temuan"
+                },
+                {
+                    "data": "rekomendasi_tindak_lanjut"
+                },
+                {
+                    "data": "status"
+                },
+                {
+                    "data": "pic"
+                },
+                {
+                    "data": "deadline"
+                },
+                {
+                    "data": "dokumentasi_tl"
+                },
+                {
+                    "data": "keterangan"
+                },
+                {
+                    "data": "action_create_new",
+                    "orderable": true,
+                    "searchable": true
+                }
+                ],
+                "responsive": true
+            });
+
+            // Tambah temuan
+            $('#tambahTemuan').click(function () {
+                var data = $('#formTambah').serialize();
+                $.ajax({
+                    url: '../service/ajax/ajax-temuan.php',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        $('#modalTambah').modal('hide');
+                        tableListTemuan.ajax.reload();
+                        $('#formTambah')[0].reset();
+                        alert(response);
+                    }
+                });
+            });
+
+            // Menampilkan modal tambah 
+            // $('#createNewTable').on('click', '.tambahTemuan', function () {
+            //     let temuan_id = $(this).data('temuan_id');
+            //     $.ajax({
+            //         url: '../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         success: function (data) {
+            //             $('#update_temuan_id').val(data.temuan_id);
+            //             $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
+            //             $('#update_status').val(data.status);
+            //             $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
+            //             $('#modalTambah').modal('show');
+            //         }
+            //     });
+            // });
+
+
 
             // simpan tandai dibaca
             // $('#simpanUpdate').click(function () {
