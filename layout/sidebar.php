@@ -4,7 +4,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../index.php">
         <div class="sidebar-brand-icon">
-            <img src="../img/pertamina.png" width="135px" alt="">
+            <img src="../../img/pertamina.png" width="135px" alt="">
             <!-- <i class="fas fa-laugh-wink"></i> -->
         </div>
         <!-- <div class="sidebar-brand-text mx-3">Seru</div> -->
@@ -30,15 +30,31 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item active">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-            aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#mainDashboardSidebar"
+            aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="mainDashboardSidebar" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="#" onclick="listTemuan('mainDashboard')">List Temuan</a>
-                <a class="collapse-item" href="#" onclick="createNew('mainDashboard')">Create New</a>
+                <a class="collapse-item" href="../dashboard/list-temuan.php">List Temuan</a>
+                <a class="collapse-item" href="../dashboard/create-new.php">Create New</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#notulenRapatSidebar"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Notulen Rapat</span>
+        </a>
+        <div id="notulenRapatSidebar" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="../notulen-rapat/list-temuan.php">List Temuan</a>
+                <a class="collapse-item" href="../notulen-rapat/create-new.php">Create New</a>
+                <a class="collapse-item" href="../notulen-rapat/list-dokumen.php">List Dokumen</a>
             </div>
         </div>
     </li>

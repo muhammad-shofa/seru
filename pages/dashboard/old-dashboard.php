@@ -1,9 +1,9 @@
 <?php
-include "../service/connection.php";
-include "../service/select.php";
-include "../service/insert.php";
-include "../service/update.php";
-include "../service/delete.php";
+include "../../service/connection.php";
+include "../../service/select.php";
+include "../../service/insert.php";
+include "../../service/update.php";
+include "../../service/delete.php";
 session_start();
 
 // check login
@@ -24,15 +24,15 @@ if ($_SESSION["is_login"] == false) {
     <title>Seru | Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -42,7 +42,7 @@ if ($_SESSION["is_login"] == false) {
     <div id="wrapper">
 
         <!-- sidebar -->
-        <?php include "../layout/sidebar.php" ?>
+        <?php include "../../layout/sidebar.php" ?>
 
 
         <!-- Content Wrapper -->
@@ -52,7 +52,7 @@ if ($_SESSION["is_login"] == false) {
             <div id="content">
 
                 <!-- navbar -->
-                <?php include "../layout/navbar.php" ?>
+                <?php include "../../layout/navbar.php" ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid" id="mainDashboard">
@@ -66,7 +66,7 @@ if ($_SESSION["is_login"] == false) {
                     </div>
 
                     <!-- Begin of listTemuan -->
-                    <div class="p-2" id="listTemuanContent" style="display:none;">
+                    <div class="p-2" id="listTemuanContent">
                         <!-- DataTales -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -112,15 +112,14 @@ if ($_SESSION["is_login"] == false) {
                                                 <input type="hidden" id="update_temuan_id" name="temuan_id">
                                                 <div class="form-floating">
                                                     <label for="update_dokumentasi_tl">Tindak Lanjut
-                                                        Perbaikan
+                                                        Perbaikan :
                                                     </label>
-                                                    <textarea class="form-control"
-                                                        placeholder="Tindak lanjut perbaikan ..."
-                                                        id="update_dokumentasi_tl" name="dokumentasi_tl"
+                                                    <textarea class="form-control" id="update_dokumentasi_tl"
+                                                        name="dokumentasi_tl"
                                                         style="height: 200px; resize: none;"></textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="status">Status</label>
+                                                    <label for="status">Status :</label>
                                                     <select class="form-control select2" name="status"
                                                         id="update_status" style="width: 100%;">
                                                         <option value="OPEN">OPEN</option>
@@ -130,7 +129,7 @@ if ($_SESSION["is_login"] == false) {
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="update_dokumentasi_gambar"
-                                                        class="form-label">Dokumentasi</label>
+                                                        class="form-label">Dokumentasi :</label>
                                                     <input class="form-control" type="file"
                                                         id="update_dokumentasi_gambar" name="dokumentasi_gambar">
                                                 </div>
@@ -153,148 +152,6 @@ if ($_SESSION["is_login"] == false) {
                         </div>
                     </div>
                     <!-- End of listTemuan -->
-
-                    <!-- Begin of Create New -->
-                    <div class="p-2" id="createNewContent">
-                        <!-- DataTales -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Create New</h6>
-
-                                <!-- btn trigger modal tambah berita -->
-                                <button type="button" class="btn btn-primary my-2" data-toggle="modal"
-                                    data-target="#modalTambah">
-                                    Tambah Temuan
-                                </button>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered text-dark" id="createNewTable" width="100%"
-                                        cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Tanggal</th>
-                                                <th>Sumber Temuan</th>
-                                                <th>Temuan</th>
-                                                <th>Rekomendasi Tindak Lanjut</th>
-                                                <th>Status</th>
-                                                <th>PIC</th>
-                                                <th>Deadline</th>
-                                                <th>Dokumentasi TL</th>
-                                                <th>Keterangan</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Modal create new -->
-                            <div class="modal fade" id="modalTambah">
-                                <div class="modal-dialog">
-                                    <div class="modal-content text-dark">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Tambah Temuan</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form id="formTambah" method="POST">
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="tambah_tanggal">Tanggal :</label>
-                                                    <input type="date" class="form-control" id="tambah_tanggal"
-                                                        name="tambah_tanggal">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tambah_sumber_temuan">Sumber Temuan :</label>
-                                                    <select class="form-control select2" name="tambah_sumber_temuan"
-                                                        id="tambah_sumber_temuan" style="width: 100%;">
-                                                        <option value="MWT">MWT</option>
-                                                        <option value="MOD">MOD</option>
-                                                        <option value="PATUH">PATUH</option>
-                                                        <option value="NOTULEN_RAPAT">NOTULEN RAPAT</option>
-                                                        <option value="LAINNYA">LAINNYA</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-floating">
-                                                    <label for="tambah_temuan">
-                                                        Temuan :
-                                                    </label>
-                                                    <textarea class="form-control" id="tambah_temuan"
-                                                        name="tambah_temuan"
-                                                        style="height: 85px; resize: none;"></textarea>
-                                                </div>
-                                                <div class="form-floating">
-                                                    <label for="tambah_rekomendasi_tindak_lanjut">
-                                                        Rekomendasi Tindak Lanjut :
-                                                    </label>
-                                                    <textarea class="form-control" id="tambah_rekomendasi_tindak_lanjut"
-                                                        name="tambah_rekomendasi_tindak_lanjut"
-                                                        style="height: 85px; resize: none;"></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tambah_status">Status :</label>
-                                                    <select class="form-control select2" name="tambah_status"
-                                                        id="tambah_status" style="width: 100%;">
-                                                        <option value="OPEN">OPEN</option>
-                                                        <option value="CLOSE">CLOSE</option>
-                                                        <option value="ON_PROGRESS">ON PROGRESS</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tambah_pic">PIC :</label>
-                                                    <select class="form-control select2" name="tambah_pic"
-                                                        id="tambah_pic" style="width: 100%;">
-                                                        <option value="RSD">RSD</option>
-                                                        <option value="PMS">PMS</option>
-                                                        <option value="HSSE">HSSE</option>
-                                                        <option value="SSGA">SSGA</option>
-                                                        <option value="QQ">QQ</option>
-                                                        <option value="FLEET">FLEET</option>
-                                                        <option value="ALL">ALL</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tambah_deadline">Deadline :</label>
-                                                    <input type="date" class="form-control" id="tambah_deadline"
-                                                        name="tambah_deadline">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tambah_dokumentasi_tl">Dokumentasi TL :</label>
-                                                    <input type="text" class="form-control" id="tambah_dokumentasi_tl"
-                                                        name="tambah_dokumentasi_tl" disabled>
-                                                </div>
-                                                <div class="form-floating">
-                                                    <label for="tambah_keterangan">
-                                                        Keterangan :
-                                                    </label>
-                                                    <textarea class="form-control" id="tambah_keterangan"
-                                                        name="tambah_keterangan"
-                                                        style="height: 85px; resize: none;"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-success" name="tambahTemuan"
-                                                    id="tambahTemuan">Tambahkan</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- Modal update End -->
-
-                            <!-- <div class="update-container">
-
-                            </div> -->
-                        </div>
-                    </div>
-                    <!-- End of Create New -->
                 </div>
 
                 <!-- Footer -->
@@ -342,25 +199,25 @@ if ($_SESSION["is_login"] == false) {
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../js/sb-admin-2.min.js"></script>
+    <script src="../../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../vendor/chart.js/Chart.min.js"></script>
+    <script src="../../vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="../js/demo/chart-area-demo.js"></script>
-    <script src="../js/demo/chart-pie-demo.js"></script>
+    <script src="../../js/demo/chart-area-demo.js"></script>
+    <script src="../../js/demo/chart-pie-demo.js"></script>
 
     <!-- Page level plugins -->
-    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <!-- <script src="../js/demo/datatables-demo.js"></script> -->
@@ -370,7 +227,7 @@ if ($_SESSION["is_login"] == false) {
 
             // AJAX TABLE LIST TEMUAN
             var tableListTemuan = $('#temuanTable').DataTable({
-                "ajax": "../service/ajax/ajax-temuan.php",
+                "ajax": "../../service/ajax/ajax-temuan.php",
                 "columns": [{
                     "data": "no"
                 },
@@ -409,7 +266,7 @@ if ($_SESSION["is_login"] == false) {
             $('#temuanTable').on('click', '.update', function () {
                 let temuan_id = $(this).data('temuan_id');
                 $.ajax({
-                    url: '../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
+                    url: '../../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
                     type: 'GET',
                     dataType: 'json',
                     success: function (data) {
@@ -429,7 +286,7 @@ if ($_SESSION["is_login"] == false) {
                 formData.append('simpanUpdate', true);
 
                 $.ajax({
-                    url: '../service/ajax/ajax-temuan.php',
+                    url: '../../service/ajax/ajax-temuan.php',
                     type: 'POST',
                     data: formData,
                     contentType: false,
@@ -441,66 +298,7 @@ if ($_SESSION["is_login"] == false) {
                         alert(response);
                     },
                     error: function (xhr, status, error) {
-                        console.log(xhr.responseText); // Debugging untuk melihat error
-                    }
-                });
-            });
-
-
-            // AJAX TABLE CREATE NEW
-            var tableListTemuan = $('#createNewTable').DataTable({
-                "ajax": "../service/ajax/ajax-temuan.php",
-                "columns": [{
-                    "data": "no"
-                },
-                {
-                    "data": "tanggal"
-                },
-                {
-                    "data": "sumber_temuan"
-                },
-                {
-                    "data": "temuan"
-                },
-                {
-                    "data": "rekomendasi_tindak_lanjut"
-                },
-                {
-                    "data": "status"
-                },
-                {
-                    "data": "pic"
-                },
-                {
-                    "data": "deadline"
-                },
-                {
-                    "data": "dokumentasi_tl"
-                },
-                {
-                    "data": "keterangan"
-                },
-                {
-                    "data": "action_create_new",
-                    "orderable": true,
-                    "searchable": true
-                }
-                ],
-                "responsive": true
-            });
-
-            // Tambah temuan
-            $('#tambahTemuan').click(function () {
-                var data = $('#formTambah').serialize();
-                $.ajax({
-                    url: '../service/ajax/ajax-temuan.php',
-                    type: 'POST',
-                    data: data,
-                    success: function (response) {
-                        $('#modalTambah').modal('hide');
-                        tableListTemuan.ajax.reload();
-                        $('#formTambah')[0].reset();
-                        alert(response);
+                        console.log(xhr.responseText);
                     }
                 });
             });

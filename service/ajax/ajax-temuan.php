@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $tmp = $_FILES['dokumentasi_gambar']['tmp_name'];
 
             // lokasi gambar
-            $location = "../../uploads/" . basename($dokumentasi_gambar);
+            $location = "../../img/uploads/" . basename($dokumentasi_gambar);
 
             // Pindahkan file ke folder tujuan
             if (move_uploaded_file($tmp, $location)) {
@@ -97,32 +97,34 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             }
             $stmt->close();
         }
-    } else {
-        // if (isset($_POST['tambahTemuan']))
-        $tambah_tanggal = $_POST['tambah_tanggal'];
-        $tambah_sumber_temuan = $_POST['tambah_sumber_temuan'];
-        $tambah_temuan = $_POST['tambah_temuan'];
-        $tambah_rekomendasi_tindak_lanjut = $_POST['tambah_rekomendasi_tindak_lanjut'];
-        $tambah_status = $_POST['tambah_status'];
-        $tambah_pic = $_POST['tambah_pic'];
-        $tambah_deadline = $_POST['tambah_deadline'];
-        // $tambah_dokumentasi_tl = $_POST['tambah_dokumentasi_tl'];
-        $tambah_dokumentasi_tl = null;
-        $tambah_dokumentasi_gambar = null;
-        $tambah_keterangan = $_POST['tambah_keterangan'];
-
-
-        $stmt = $connected->prepare($insert->selectTable($table_name = "temuan", $condition = "(tanggal, sumber_temuan, temuan, rekomendasi_tindak_lanjut, status, pic, deadline, dokumentasi_tl, dokumentasi_gambar, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"));
-        $stmt->bind_param("ssssssssss", $tambah_tanggal, $tambah_sumber_temuan, $tambah_temuan, $tambah_rekomendasi_tindak_lanjut, $tambah_status, $tambah_pic, $tambah_deadline, $tambah_dokumentasi_tl, $tambah_dokumentasi_gambar, $tambah_keterangan);
-
-        if ($stmt->execute()) {
-            echo "Berhasil menambahkan data baru";
-        } else {
-            echo "Gagal menambahkan data baru" . $stmt->error;
-        }
-
-        $stmt->close();
     }
+
+    // else {
+    //     // if (isset($_POST['tambahTemuan']))
+    //     $tambah_tanggal = $_POST['tambah_tanggal'];
+    //     $tambah_sumber_temuan = $_POST['tambah_sumber_temuan'];
+    //     $tambah_temuan = $_POST['tambah_temuan'];
+    //     $tambah_rekomendasi_tindak_lanjut = $_POST['tambah_rekomendasi_tindak_lanjut'];
+    //     $tambah_status = $_POST['tambah_status'];
+    //     $tambah_pic = $_POST['tambah_pic'];
+    //     $tambah_deadline = $_POST['tambah_deadline'];
+    //     // $tambah_dokumentasi_tl = $_POST['tambah_dokumentasi_tl'];
+    //     $tambah_dokumentasi_tl = null;
+    //     $tambah_dokumentasi_gambar = null;
+    //     $tambah_keterangan = $_POST['tambah_keterangan'];
+
+
+    //     $stmt = $connected->prepare($insert->selectTable($table_name = "temuan", $condition = "(tanggal, sumber_temuan, temuan, rekomendasi_tindak_lanjut, status, pic, deadline, dokumentasi_tl, dokumentasi_gambar, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"));
+    //     $stmt->bind_param("ssssssssss", $tambah_tanggal, $tambah_sumber_temuan, $tambah_temuan, $tambah_rekomendasi_tindak_lanjut, $tambah_status, $tambah_pic, $tambah_deadline, $tambah_dokumentasi_tl, $tambah_dokumentasi_gambar, $tambah_keterangan);
+
+    //     if ($stmt->execute()) {
+    //         echo "Berhasil menambahkan data baru";
+    //     } else {
+    //         echo "Gagal menambahkan data baru" . $stmt->error;
+    //     }
+
+    //     $stmt->close();
+    // }
 
 }
 
