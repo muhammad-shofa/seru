@@ -21,7 +21,7 @@ if ($_SESSION["is_login"] == false) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Seru | Dashboard</title>
+    <title>Seru | Notulen Rapat</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -59,7 +59,7 @@ if ($_SESSION["is_login"] == false) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard Create New</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Notulen Rapat Create New</h1>
                     </div>
 
                     <!-- Begin of Create New -->
@@ -72,7 +72,7 @@ if ($_SESSION["is_login"] == false) {
                                 <!-- btn trigger modal tambah berita -->
                                 <button type="button" class="btn btn-primary my-2" data-toggle="modal"
                                     data-target="#modalTambah">
-                                    Tambah Temuan
+                                    Tambah Notulen
                                 </button>
                             </div>
                             <div class="card-body">
@@ -275,7 +275,7 @@ if ($_SESSION["is_login"] == false) {
         $(document).ready(function () {
             // AJAX TABLE CREATE NEW
             var tableListTemuan = $('#createNewTable').DataTable({
-                "ajax": "../../service/ajax/ajax-create-new.php",
+                "ajax": "../../service/ajax/ajax-create-new.php?sumber=notulen_rapat",
                 "columns": [{
                     "data": "no"
                 },

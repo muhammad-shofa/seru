@@ -16,11 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
         echo json_encode($data);
-    } else {
-        $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = ""));
+    } else if (isset($_GET["sumber"]) && $_GET["sumber"] == "notulen_rapat") {
+        // Khusus menampilkan data dengan sumber_temuan NOTULEN_RAPAT
+        $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = "WHERE sumber_temuan = 'NOTULEN_RAPAT'"));
 
         $data = [];
-
         $i = 0;
         while ($row = $result->fetch_assoc()) {
             $i++;
@@ -31,27 +31,67 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
             }
 
-            if (isset($row['sumber_temuan']) && $row['sumber_temuan'] == "NOTULEN_RAPAT") {
-                $row['sumber_temuan'] = "NOTULEN RAPAT";
-            }
-
-            if (isset($row['status']) && $row['status'] == "ON_PROGRESS") {
-                $row['status'] = "ON PROGRESS";
-            }
-
-            if (!empty($row['dokumentasi_tl'])) {
+            // Mengecek jika kolom dokumentasi_tl kosong
+            if (empty($row['dokumentasi_tl'])) {
+                $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
+            } else {
                 $value_dokumentasi_tl = $row['dokumentasi_tl'];
-                $file_path = $row['dokumentasi_gambar'];
-                $file_name = basename($file_path);
-                $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="../../service/download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download' . $file_name . '">
-                <i class="fas fa-download"></i></a>';
+                if ($row['dokumentasi_gambar'] == NULL) {
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl;
+                } else {
+                    $file_path = $row['dokumentasi_gambar'];
+                    $file_name = basename($file_path);
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
+                        <i class="fas fa-download"></i></a>';
+                }
             }
 
+            // Menambahkan tombol aksi hapus
             $row['action_create_new'] = '<button type="button" class="delete btn btn-danger" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-trash"></i></button>';
 
             $data[] = $row;
         }
 
+        // Mengirim data ke DataTables dalam format JSON
+        echo json_encode(["data" => $data]);
+
+    } else {
+        // Menampilkan semua data jika tidak ada ID temuan dan sumber_temuan khusus
+        $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = ""));
+
+        $data = [];
+        $i = 0;
+        while ($row = $result->fetch_assoc()) {
+            $i++;
+            $row['no'] = $i;
+
+            // Mengubah format tanggal
+            if (isset($row['tanggal'])) {
+                $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
+            }
+
+            // Mengecek jika kolom dokumentasi_tl kosong
+            if (empty($row['dokumentasi_tl'])) {
+                $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
+            } else {
+                $value_dokumentasi_tl = $row['dokumentasi_tl'];
+                if ($row['dokumentasi_gambar'] == NULL) {
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl;
+                } else {
+                    $file_path = $row['dokumentasi_gambar'];
+                    $file_name = basename($file_path);
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
+                    <i class="fas fa-download"></i></a>';
+                }
+            }
+
+            // Menambahkan tombol aksi hapus
+            $row['action_create_new'] = '<button type="button" class="delete btn btn-danger" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-trash"></i></button>';
+
+            $data[] = $row;
+        }
+
+        // Mengirim data ke DataTables dalam format JSON
         echo json_encode(["data" => $data]);
     }
 

@@ -21,7 +21,7 @@ if ($_SESSION["is_login"] == false) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Seru | Dashboard</title>
+    <title>Seru | Notulen Rapat</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -72,7 +72,7 @@ if ($_SESSION["is_login"] == false) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard List Temuan</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Notulen Rapat List Temuan</h1>
                     </div>
 
                     <!-- Begin of listTemuan -->
@@ -84,8 +84,8 @@ if ($_SESSION["is_login"] == false) {
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered text-dark" id="temuanTable" width="100%"
-                                        cellspacing="0">
+                                    <table class="table table-bordered text-dark" id="temuanTableNotulenRapat"
+                                        width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -241,10 +241,8 @@ if ($_SESSION["is_login"] == false) {
 
     <script>
         $(document).ready(function () {
-
-            // AJAX TABLE LIST TEMUAN
-            var tableListTemuan = $('#temuanTable').DataTable({
-                "ajax": "../../service/ajax/ajax-temuan.php",
+            var tableListTemuanNotulenRapat = $('#temuanTableNotulenRapat').DataTable({
+                "ajax": "../../service/ajax/ajax-temuan.php?sumber=notulen_rapat",
                 "columns": [{
                     "data": "no"
                 },
@@ -290,7 +288,7 @@ if ($_SESSION["is_login"] == false) {
             });
 
             // Menampilkan modal Update
-            $('#temuanTable').on('click', '.update', function () {
+            $('#temuanTableNotulenRapat').on('click', '.update', function () {
                 let temuan_id = $(this).data('temuan_id');
                 $.ajax({
                     url: '../../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
@@ -320,7 +318,7 @@ if ($_SESSION["is_login"] == false) {
                     processData: false,
                     success: function (response) {
                         $('#modalUpdate').modal('hide');
-                        tableListTemuan.ajax.reload();
+                        tableListTemuanNotulenRapat.ajax.reload();
                         $('#formUpdate')[0].reset();
                         alert(response);
                     },

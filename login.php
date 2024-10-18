@@ -18,7 +18,7 @@ if (isset($_POST["masuk"])) {
         $_SESSION["role"] = $data_user["role"];
         $_SESSION["is_login"] = true;
         if ($_SESSION["role"] === "admin" || "manager") {
-            header("location: pages/dashboard.php");
+            header("location: pages/dashboard/list-temuan.php");
         }
     } else {
         $message_login = "Pastikan kamu memasukkan username dan password yang benar!";

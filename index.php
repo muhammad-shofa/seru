@@ -9,7 +9,7 @@
 
 <body>
     <a href="login.php">Login</a>
-    <a href="pages/dashboard.php">Dashboard</a>
+    <a href="pages/dashboard/list-temuan.php">Dashboard</a>
 </body>
 
 </html>
