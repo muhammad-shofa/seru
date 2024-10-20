@@ -11,6 +11,14 @@ if ($_SESSION["is_login"] == false) {
     header("location: ../../index.php");
 }
 
+// logout
+if (isset($_POST["logout"])) {
+    session_unset();
+    session_destroy();
+    header("location: ../../index.php");
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,6 +106,7 @@ if ($_SESSION["is_login"] == false) {
                                                 <th>Deadline</th>
                                                 <th>Dokumentasi TL</th>
                                                 <th>Keterangan</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -147,6 +156,108 @@ if ($_SESSION["is_login"] == false) {
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-primary" name="simpanUpdate"
                                                     id="simpanUpdate">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- Modal update End -->
+
+                            <!-- Modal update -->
+                            <div class="modal fade" id="modalEdit">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form id="formEdit" method="POST" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <!-- method="post" -->
+                                                <input type="hidden" id="edit_temuan_id" name="temuan_id">
+                                                <div class="form-group">
+                                                    <label for="edit_tanggal">Tanggal :</label>
+                                                    <input type="date" class="form-control" id="edit_tanggal"
+                                                        name="tanggal">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_sumber_temuan">Sumber Temuan :</label>
+                                                    <select class="form-control select2" name="sumber_temuan"
+                                                        id="edit_sumber_temuan" style="width: 100%;">
+                                                        <option value="MWT">MWT</option>
+                                                        <option value="MOD">MOD</option>
+                                                        <option value="PATUH">PATUH</option>
+                                                        <option value="NOTULEN_RAPAT">NOTULEN RAPAT</option>
+                                                        <option value="LAINNYA">LAINNYA</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_temuan">Temuan :</label>
+                                                    <input type="text" class="form-control" id="edit_temuan"
+                                                        name="temuan">
+                                                </div>
+                                                <div class="form-floating">
+                                                    <label for="edit_rekomendasi_tindak_lanjut">Rekomendasi Tindak
+                                                        Lanjut :
+                                                    </label>
+                                                    <textarea class="form-control" id="edit_rekomendasi_tindak_lanjut"
+                                                        name="rekomendasi_tindak_lanjut"
+                                                        style="height: 200px; resize: none;"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_status">Status :</label>
+                                                    <select class="form-control select2" name="status" id="edit_status"
+                                                        style="width: 100%;">
+                                                        <option value="OPEN">OPEN</option>
+                                                        <option value="CLOSE">CLOSE</option>
+                                                        <option value="ON_PROGRESS">ON PROGRESS</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_pic">PIC :</label>
+                                                    <select class="form-control select2" name="pic" id="edit_pic"
+                                                        style="width: 100%;">
+                                                        <option value="RSD">RSD</option>
+                                                        <option value="PMS">PMS</option>
+                                                        <option value="HSSE">HSSE</option>
+                                                        <option value="SSGA">SSGA</option>
+                                                        <option value="QQ">QQ</option>
+                                                        <option value="FLEET">FLEET</option>
+                                                        <option value="ALL">ALL</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_deadline">Deadline :</label>
+                                                    <input type="date" class="form-control" id="edit_deadline"
+                                                        name="deadline">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_dokumentasi_tl">Dokumentasi TL :</label>
+                                                    <input type="text" class="form-control" id="edit_dokumentasi_tl"
+                                                        name="dokumentasi_tl">
+                                                </div>
+                                                <div class="form-floating">
+                                                    <label for="edit_keterangan">Keterangan :
+                                                    </label>
+                                                    <textarea class="form-control" id="edit_keterangan"
+                                                        name="keterangan"
+                                                        style="height: 200px; resize: none;"></textarea>
+                                                </div>
+
+
+                                                <!-- <div class="form-group">
+                                                    <label for="edit_sumber_temuan">Sumber Temuan:</label>
+                                                    <input type="text" class="form-control" id="edit_sumber_temuan"
+                                                        name="tanggal">
+                                                </div> -->
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-primary" name="simpanEdit"
+                                                    id="simpanEdit">Simpan Edit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -272,6 +383,11 @@ if ($_SESSION["is_login"] == false) {
                 },
                 {
                     "data": "keterangan"
+                },
+                {
+                    "data": "action_edit",
+                    "orderable": true,
+                    "searchable": true
                 }
                 ],
                 dom: '<"d-flex justify-content-end"fB>rtip', // Posisi tombol di sebelah search bar
@@ -324,6 +440,44 @@ if ($_SESSION["is_login"] == false) {
                     },
                     error: function (xhr, status, error) {
                         console.log(xhr.responseText);
+                    }
+                });
+            });
+
+            // Menampilkan modal Edit
+            $('#temuanTableNotulenRapat').on('click', '.edit', function () {
+                let temuan_id = $(this).data('temuan_id');
+                $.ajax({
+                    url: '../../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#edit_temuan_id').val(data.temuan_id);
+                        $('#edit_tanggal').val(data.tanggal);
+                        $('#edit_sumber_temuan').val(data.sumber_temuan);
+                        $('#edit_temuan').val(data.temuan);
+                        $('#edit_rekomendasi_tindak_lanjut').val(data.rekomendasi_tindak_lanjut);
+                        $('#edit_status').val(data.status);
+                        $('#edit_pic').val(data.pic);
+                        $('#edit_deadline').val(data.deadline);
+                        $('#edit_dokumentasi_tl').val(data.dokumentasi_tl);
+                        $('#edit_keterangan').val(data.keterangan);
+                        $('#modalEdit').modal('show');
+                    }
+                });
+            });
+
+            // Simpan Edit
+            $('#simpanEdit').click(function () {
+                var data = $('#formEdit').serialize();
+                $.ajax({
+                    url: '../../service/ajax/ajax-temuan.php',
+                    type: 'PUT',
+                    data: data,
+                    success: function (response) {
+                        $('#modalEdit').modal('hide');
+                        tableListTemuanNotulenRapat.ajax.reload();
+                        alert(response);
                     }
                 });
             });

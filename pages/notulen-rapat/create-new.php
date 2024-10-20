@@ -11,6 +11,13 @@ if ($_SESSION["is_login"] == false) {
     header("location: ../../index.php");
 }
 
+// logout
+if (isset($_POST["logout"])) {
+    session_unset();
+    session_destroy();
+    header("location: ../../index.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

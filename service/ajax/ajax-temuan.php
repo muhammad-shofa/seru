@@ -46,8 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 }
             }
 
-            // Menambahkan tombol aksi hapus
-            // $row['action_create_new'] = '<button type="button" class="delete btn btn-danger" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-trash"></i></button>';
+            // Menambahkan tombol aksi edit
+            $row['action_edit'] = '<button type="button" class="edit btn btn-primary" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-pen"></i></button>';
 
             $data[] = $row;
         }
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         echo json_encode(["data" => $data]);
 
     } else {
-        // Menampilkan semua data jika tidak ada ID temuan dan sumber_temuan khusus
+        // Menampilkan semua data jika tidak ada ID temuan dan sumber_temuan 
         $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = ""));
 
         $data = [];
@@ -225,5 +225,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt->close();
     }
 
-}
+} else if ($_SERVER["REQUEST_METHOD"] == "PUT") {
+    // Edit List Notulen Rapat
+    parse_str(file_get_contents("php://input"), $data);
+    $temuan_id = $data["temuan_id"];
+    $tanggal = $data["tanggal"];
+    $sumber_temuan = $data["sumber_temuan"];
+    $temuan = $data["temuan"];
+    $rekomendasi_tindak_lanjut = $data["rekomendasi_tindak_lanjut"];
+    $status = $data["status"];
+    $pic = $data["pic"];
+    $deadline = $data["deadline"];
+    $dokumentasi_tl = $data["dokumentasi_tl"];
+    $keterangan = $data["keterangan"];
 
+
+    $stmt = $connected->prepare($update->selectTable($table_name = "temuan", $condition = "tanggal = ?, sumber_temuan = ?, temuan = ?, rekomendasi_tindak_lanjut = ?, status = ?, pic = ?, deadline = ?, dokumentasi_tl = ?, keterangan = ? WHERE temuan_id = ?"));
+    $stmt->bind_param("sssssssssi", $tanggal, $sumber_temuan, $temuan, $rekomendasi_tindak_lanjut, $status, $pic, $deadline, $dokumentasi_tl, $keterangan, $temuan_id);
+
+    if ($stmt->execute()) {
+        echo "Berhasil mengedit temuan notulen rapat";
+    } else {
+        echo "Gagal mengedit temuan notulen rapat " . $stmt->error;
+    }
+
+    $stmt->close();
+}
