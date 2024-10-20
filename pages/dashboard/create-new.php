@@ -97,6 +97,7 @@ if (isset($_POST["logout"])) {
                                                 <th>PIC</th>
                                                 <th>Deadline</th>
                                                 <th>Dokumentasi TL</th>
+                                                <th>Prioritas</th>
                                                 <th>Keterangan</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -161,17 +162,35 @@ if (isset($_POST["logout"])) {
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="tambah_pic">PIC :</label>
-                                                    <select class="form-control select2" name="tambah_pic"
-                                                        id="tambah_pic" style="width: 100%;">
-                                                        <option value="RSD">RSD</option>
-                                                        <option value="PMS">PMS</option>
-                                                        <option value="HSSE">HSSE</option>
-                                                        <option value="SSGA">SSGA</option>
-                                                        <option value="QQ">QQ</option>
-                                                        <option value="FLEET">FLEET</option>
-                                                        <option value="ALL">ALL</option>
-                                                    </select>
+                                                    <label>PIC :</label><br>
+                                                    <input type="checkbox" name="tambah_pic[]" value="RSD" id="rsd">
+                                                    <label class="form-check-label mr-2" for="rsd">
+                                                        RSD
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="PMS" id="pms">
+                                                    <label class="form-check-label mr-2" for="pms">
+                                                        PMS
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="HSSE" id="hsse">
+                                                    <label class="form-check-label mr-2" for="hsse">
+                                                        HSSE
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="SSGA" id="ssga">
+                                                    <label class="form-check-label mr-2" for="ssga">
+                                                        SSGA
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="QQ" id="qq">
+                                                    <label class="form-check-label mr-2" for="qq">
+                                                        QQ
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="FLEET" id="fleet">
+                                                    <label class="form-check-label mr-2" for="fleet">
+                                                        FLEET
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="ALL" id="all">
+                                                    <label class="form-check-label mr-2" for="all">
+                                                        ALL
+                                                    </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="tambah_deadline">Deadline :</label>
@@ -182,6 +201,15 @@ if (isset($_POST["logout"])) {
                                                     <label for="tambah_dokumentasi_tl">Dokumentasi TL :</label>
                                                     <input type="text" class="form-control" id="tambah_dokumentasi_tl"
                                                         name="tambah_dokumentasi_tl" disabled>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tambah_prioritas">Prioritas :</label>
+                                                    <select class="form-control select2" name="tambah_prioritas"
+                                                        id="tambah_prioritas" style="width: 100%;">
+                                                        <option value="tinggi">Tinggi</option>
+                                                        <option value="sedang">Sedang</option>
+                                                        <option value="rendah">Rendah</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-floating">
                                                     <label for="tambah_keterangan">
@@ -305,10 +333,13 @@ if (isset($_POST["logout"])) {
                     "data": "pic"
                 },
                 {
-                    "data": "deadline"
+                    "data": "deadline_tw"
                 },
                 {
                     "data": "dokumentasi_tl"
+                },
+                {
+                    "data": "prioritas"
                 },
                 {
                     "data": "keterangan"
@@ -337,6 +368,54 @@ if (isset($_POST["logout"])) {
                     }
                 });
             });
+
+            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
+            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
+            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
+            // Menampilkan modal Update
+            $('#temuanTable').on('click', '.update', function () {
+                let temuan_id = $(this).data('temuan_id');
+                $.ajax({
+                    url: '../../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#update_temuan_id').val(data.temuan_id);
+                        $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
+                        $('#update_status').val(data.status);
+                        $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
+                        $('#modalUpdate').modal('show');
+                    }
+                });
+            });
+
+            // Simpan update Dokumentasi TL
+            $('#simpanUpdate').click(function () {
+                var formData = new FormData($('#formUpdate')[0]);
+
+                formData.append('simpanUpdate', true);
+
+                $.ajax({
+                    url: '../../service/ajax/ajax-temuan.php',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $('#modalUpdate').modal('hide');
+                        tableListTemuan.ajax.reload();
+                        $('#formUpdate')[0].reset();
+                        alert(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
+            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
+            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
+
 
 
             // Delete List Temuan

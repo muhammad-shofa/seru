@@ -97,6 +97,7 @@ if (isset($_POST["logout"])) {
                                                 <th>PIC</th>
                                                 <th>Deadline</th>
                                                 <th>Dokumentasi TL</th>
+                                                <th>Prioritas</th>
                                                 <th>Keterangan</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -305,10 +306,13 @@ if (isset($_POST["logout"])) {
                     "data": "pic"
                 },
                 {
-                    "data": "deadline"
+                    "data": "deadline_tw"
                 },
                 {
                     "data": "dokumentasi_tl"
+                },
+                {
+                    "data": "prioritas"
                 },
                 {
                     "data": "keterangan"

@@ -1,0 +1,21 @@
+Minggu - 20/10/2024 
+1. Download file gambar masih belum berfungsi dengan baik
+2. Setiap form belum terdapat validasi apapun
+3. File gambar belum divalidasi maksimal sizenya
+4. Notulen rapat create new masih belum 100% (bingung dengan adopt dan informasi di atas tabel, apakah itu filter?
+dan apakah informasi tersebut memerlukan tabel tersendiri?)
+5. Export ke excel dan pdf (belum)
+6. List dokumen (belum)
+
+-- Pemahaman saya tentang Popup Modal Adopt --
+Merupakan filter untuk menampilkan Notulen Rapat dari waktu tertentu, misalnya deadline dari tanggal 22/10/2024
+sampai 25/12/2024 (jadi yang ditampilkan adalah Notulen Rapat dalam jangka waktu tersebut) 
+
+-- Pemahaman saya tentang Informasi Di Atas Tabel Notulen Rapat --
+--
+
+-- Pemahaman saya tentang tombol save & delete di bagian create new  --
+Karena di setiap baris terdapat tombol save maka saya menyimpulkan bahwa tombol Save mungkin digunakan untuk
+menyimpan baris Notulen Rapat pada halaman List Dokumen yang nantinya dapat didownload.
+(kebingungan saya = apakah jika hanya 1 baris dari tabel Notulen Rapat yang disave, maka data
+pada file excel / pdf yang akan didownload juga hanya satu baris?)

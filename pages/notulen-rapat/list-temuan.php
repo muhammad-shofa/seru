@@ -105,6 +105,7 @@ if (isset($_POST["logout"])) {
                                                 <th>PIC</th>
                                                 <th>Deadline</th>
                                                 <th>Dokumentasi TL</th>
+                                                <th>Prioritas</th>
                                                 <th>Keterangan</th>
                                                 <th>Aksi</th>
                                             </tr>
@@ -217,7 +218,78 @@ if (isset($_POST["logout"])) {
                                                         <option value="ON_PROGRESS">ON PROGRESS</option>
                                                     </select>
                                                 </div>
-                                                <div class="form-group">
+
+
+                                                <!-- <div class="form-group">
+                                                    <label>PIC :</label><br>
+                                                    <php
+                                                    // Array pilihan PIC yang tersedia
+                                                    $pic_options = ['RSD', 'PMS', 'HSSE', 'SSGA', 'QQ', 'FLEET', 'ALL'];
+
+                                                    // Loop untuk menampilkan checkbox berdasarkan array pilihan PIC
+                                                    foreach ($pic_options as $pic) {
+                                                        // Cek apakah PIC sudah dicentang sebelumnya
+                                                        $checked = in_array($pic, $pic_array) ? 'checked' : '';
+
+                                                        // Buat ID dinamis berdasarkan nilai PIC
+                                                        $id = strtolower($pic);
+
+                                                        // Tampilkan checkbox dan label
+                                                        echo '<input type="checkbox" name="edit_pic[]" value="' . $pic . '" id="' . $id . '" ' . $checked . '>';
+                                                        echo '<label class="form-check-label mr-2" for="' . $id . '"> ' . $pic . ' </label>';
+                                                    }
+                                                    ?>
+                                                </div> -->
+
+
+
+                                                <input type="text" id="edit_pic">
+
+                                                <!-- <div class="form-group">
+                                                    <label>PIC :</label><br>
+                                                    <input type="checkbox" name="edit_pic[]" value="RSD" id="rsd"
+                                                        <php if (in_array('RSD', $pic_array))
+                                                            echo 'checked'; ?>>
+                                                    <label class="form-check-label mr-2" for="rsd">
+                                                        RSD
+                                                    </label>
+                                                    <input type="checkbox" name="edit_pic[]" value="PMS" id="pms"
+                                                        <php if (in_array('PMS', $pic_array))
+                                                            echo 'checked'; ?>>
+                                                    <label class="form-check-label mr-2" for="pms">
+                                                        PMS
+                                                    </label>
+                                                    <input type="checkbox" name="edit_pic[]" value="HSSE" id="hsse"
+                                                        <php if (in_array('HSSE', $pic_array))
+                                                            echo 'checked'; ?>>
+                                                    <label class="form-check-label mr-2" for="hsse">
+                                                        HSSE
+                                                    </label>
+                                                    <input type="checkbox" name="edit_pic[]" value="SSGA" id="ssga"
+                                                        <php if (in_array('SSGA', $pic_array))
+                                                            echo 'checked'; ?>>
+                                                    <label class="form-check-label mr-2" for="ssga">
+                                                        SSGA
+                                                    </label>
+                                                    <input type="checkbox" name="edit_pic[]" value="QQ" id="qq" <php if (in_array('QQ', $pic_array))
+                                                        echo 'checked'; ?>>
+                                                    <label class="form-check-label mr-2" for="qq">
+                                                        QQ
+                                                    </label>
+                                                    <input type="checkbox" name="edit_pic[]" value="FLEET" id="fleet"
+                                                        <php if (in_array('FLEET', $pic_array))
+                                                            echo 'checked'; ?>>
+                                                    <label class="form-check-label mr-2" for="fleet">
+                                                        FLEET
+                                                    </label>
+                                                    <input type="checkbox" name="edit_pic[]" value="ALL" id="all"
+                                                        <php if (in_array('ALL', $pic_array))
+                                                            echo 'checked'; ?>>
+                                                    <label class="form-check-label mr-2" for="all">
+                                                        ALL
+                                                    </label>
+                                                </div> -->
+                                                <!-- <div class="form-group">
                                                     <label for="edit_pic">PIC :</label>
                                                     <select class="form-control select2" name="pic" id="edit_pic"
                                                         style="width: 100%;">
@@ -229,7 +301,7 @@ if (isset($_POST["logout"])) {
                                                         <option value="FLEET">FLEET</option>
                                                         <option value="ALL">ALL</option>
                                                     </select>
-                                                </div>
+                                                </div> -->
                                                 <div class="form-group">
                                                     <label for="edit_deadline">Deadline :</label>
                                                     <input type="date" class="form-control" id="edit_deadline"
@@ -376,10 +448,13 @@ if (isset($_POST["logout"])) {
                     "data": "pic"
                 },
                 {
-                    "data": "deadline"
+                    "data": "deadline_tw"
                 },
                 {
                     "data": "dokumentasi_tl"
+                },
+                {
+                    "data": "prioritas"
                 },
                 {
                     "data": "keterangan"
@@ -414,7 +489,7 @@ if (isset($_POST["logout"])) {
                         $('#update_temuan_id').val(data.temuan_id);
                         $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
                         $('#update_status').val(data.status);
-                        $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
+                        // $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
                         $('#modalUpdate').modal('show');
                     }
                 });

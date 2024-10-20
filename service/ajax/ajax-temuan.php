@@ -15,6 +15,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $stmt->execute();
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
+
+        // $data['pic_array'] = explode(', ', $data['pic']);
+
+        // Pastikan kolom pic ada di dalam $data
+        // if (isset($data['pic'])) {
+        //     // Pecah string pic menjadi array
+        //     $pic_array = explode(',', $data['pic']);
+        // } else {
+        //     // Jika tidak ada data pic, inisialisasi array kosong
+        //     $pic_array = [];
+        // }
+        // $pic_array = explode(',', $row['pic']);
+
         echo json_encode($data);
     } else if (isset($_GET["sumber"]) && $_GET["sumber"] == "notulen_rapat") {
         // Khusus menampilkan data dengan sumber_temuan NOTULEN_RAPAT
@@ -31,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
             }
 
-            // Mengecek jika kolom dokumentasi_tl kosong
+            // Cek jika kolom dokumentasi_tl kosong
             if (empty($row['dokumentasi_tl'])) {
                 $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
             } else {
@@ -46,15 +59,57 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 }
             }
 
-            // Menambahkan tombol aksi edit
+            // Ubah tanggal ke TW
+            $row['deadline_tw'] = getTriwulan($row['deadline']);
+
+            // Tombol aksi edit
             $row['action_edit'] = '<button type="button" class="edit btn btn-primary" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-pen"></i></button>';
 
             $data[] = $row;
         }
 
-        // Mengirim data ke DataTables dalam format JSON
         echo json_encode(["data" => $data]);
 
+    } else if (isset($_GET["sumber"]) && $_GET["sumber"] == "mwt") {
+        // Khusus menampilkan data dengan sumber_temuan NOTULEN_RAPAT
+        $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = "WHERE sumber_temuan = 'MWT'"));
+
+        $data = [];
+        $i = 0;
+        while ($row = $result->fetch_assoc()) {
+            $i++;
+            $row['no'] = $i;
+
+            // Mengubah format tanggal
+            if (isset($row['tanggal'])) {
+                $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
+            }
+
+            // Cek jika kolom dokumentasi_tl kosong
+            if (empty($row['dokumentasi_tl'])) {
+                $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
+            } else {
+                $value_dokumentasi_tl = $row['dokumentasi_tl'];
+                if ($row['dokumentasi_gambar'] == NULL) {
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl;
+                } else {
+                    $file_path = $row['dokumentasi_gambar'];
+                    $file_name = basename($file_path);
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
+                      <i class="fas fa-download"></i></a>';
+                }
+            }
+
+            // Ubah tanggal ke TW
+            $row['deadline_tw'] = getTriwulan($row['deadline']);
+
+            // Tombol aksi edit
+            $row['action_edit'] = '<button type="button" class="edit btn btn-primary" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-pen"></i></button>';
+
+            $data[] = $row;
+        }
+
+        echo json_encode(["data" => $data]);
     } else {
         // Menampilkan semua data jika tidak ada ID temuan dan sumber_temuan 
         $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = ""));
@@ -70,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
             }
 
-            // Mengecek jika kolom dokumentasi_tl kosong
+            // Cek jika kolom dokumentasi_tl kosong
             if (empty($row['dokumentasi_tl'])) {
                 $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
             } else {
@@ -85,8 +140,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 }
             }
 
-            // Menambahkan tombol aksi hapus
-            // $row['action_create_new'] = '<button type="button" class="delete btn btn-danger" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-trash"></i></button>';
+            // Ubah tanggal ke TW
+            $row['deadline_tw'] = getTriwulan($row['deadline']);
 
             $data[] = $row;
         }
@@ -94,67 +149,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         // Mengirim data ke DataTables dalam format JSON
         echo json_encode(["data" => $data]);
     }
-
-
-
-
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-    // 
-
-    //     $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = ""));
-
-    //     $data = [];
-
-    //     $i = 0;
-    //     while ($row = $result->fetch_assoc()) {
-    //         $i++;
-    //         $row['no'] = $i;
-
-    //         // Mengubah format tanggal
-    //         if (isset($row['tanggal'])) {
-    //             $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
-    //         }
-
-
-
-    //         // Mengecek jika kolom dokumentasi_tl kosong
-    //         if (empty($row['dokumentasi_tl'])) {
-    //             $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
-    //         } else {
-    //             $value_dokumentasi_tl = $row['dokumentasi_tl'];
-    //             $file_path = $row['dokumentasi_gambar'];
-    //             $file_name = basename($file_path);
-    //             $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download' . $file_name . '">
-    //             <i class="fas fa-download"></i></a>';
-    //         }
-
-    //         $row['action_create_new'] = '<button type="button" class="delete btn btn-danger" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal"><i class="fas fa-trash"></i></button>';
-
-    //         $data[] = $row;
-    //     }
-
-    //     echo json_encode(["data" => $data]);
-    // }
-
-
-    // Notulen Rapat
-    // if (isset($row['sumber_temuan'])) {
-    //     $result_notulen_rapat = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = "WHERE sumber_temuan = 'NOTULEN_RAPAT'"));
-    //     $w = 0;
-    //     while ($row_notulen_rapat = $result_notulen_rapat->fetch_assoc()) {
-    //         $w++;
-    //         $row_notulen_rapat['no'] = $w;
-    //         $row_notulen_rapat['sumber_temuan_notulen_rapat'] = $row_notulen_rapat['sumber_temuan'];
-    //     }
-
-    //     $data_notulen_rapat[] = $row_notulen_rapat;
-    // }
 
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -165,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $dokumentasi_tl = $_POST['dokumentasi_tl'];
         $status = $_POST['status'];
 
-        if (empty($_FILES['dokumentasi_gambar'])) {
+        if (isset($_FILES['dokumentasi_gambar']) && $_FILES['dokumentasi_gambar']['error'] != UPLOAD_ERR_NO_FILE) {
             $dokumentasi_gambar = $_FILES['dokumentasi_gambar']['name'];
             $tmp = $_FILES['dokumentasi_gambar']['tmp_name'];
 
@@ -207,7 +201,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $tambah_status = $_POST['tambah_status'];
         $tambah_pic = $_POST['tambah_pic'];
         $tambah_deadline = $_POST['tambah_deadline'];
-        // $tambah_dokumentasi_tl = $_POST['tambah_dokumentasi_tl'];
         $tambah_dokumentasi_tl = null;
         $tambah_dokumentasi_gambar = null;
         $tambah_keterangan = $_POST['tambah_keterangan'];
@@ -244,10 +237,33 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $stmt->bind_param("sssssssssi", $tanggal, $sumber_temuan, $temuan, $rekomendasi_tindak_lanjut, $status, $pic, $deadline, $dokumentasi_tl, $keterangan, $temuan_id);
 
     if ($stmt->execute()) {
-        echo "Berhasil mengedit temuan notulen rapat";
+        echo "Berhasil mengedit data";
     } else {
-        echo "Gagal mengedit temuan notulen rapat " . $stmt->error;
+        echo "Gagal mengedit data " . $stmt->error;
     }
 
     $stmt->close();
+}
+
+// Function ubah tanggal ke string TW
+function getTriwulan($tanggalInput)
+{
+    // Mengambil tahun dan bulan dari input tanggal
+    $date = new DateTime($tanggalInput);
+    $bulan = (int) $date->format('m');
+    $tahun = $date->format('Y');
+
+    // Menentukan triwulan berdasarkan bulan
+    if ($bulan >= 1 && $bulan <= 3) {
+        $triwulan = "TW I";
+    } elseif ($bulan >= 4 && $bulan <= 6) {
+        $triwulan = "TW II";
+    } elseif ($bulan >= 7 && $bulan <= 9) {
+        $triwulan = "TW III";
+    } else {
+        $triwulan = "TW IV";
+    }
+
+    // Menggabungkan triwulan dan tahun
+    return $triwulan . " " . $tahun;
 }

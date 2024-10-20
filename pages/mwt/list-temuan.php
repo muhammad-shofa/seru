@@ -8,8 +8,16 @@ session_start();
 
 // check login
 if ($_SESSION["is_login"] == false) {
-    header("location: ../index.php");
+    header("location: ../../index.php");
 }
+
+// logout
+if (isset($_POST["logout"])) {
+    session_unset();
+    session_destroy();
+    header("location: ../../index.php");
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +29,7 @@ if ($_SESSION["is_login"] == false) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Seru | Dashboard</title>
+    <title>Seru | MWT</title>
 
     <!-- Custom fonts for this template-->
     <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,6 +41,19 @@ if ($_SESSION["is_login"] == false) {
 
     <!-- Custom styles for this template-->
     <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        .dataTables_filter {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .dt-buttons {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
+    </style>
 
 </head>
 
@@ -59,10 +80,7 @@ if ($_SESSION["is_login"] == false) {
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <!-- <a href="../service/export/export_dashboard_list_temuan.php"
-                            class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+                        <h1 class="h3 mb-0 text-gray-800">MWT List Temuan</h1>
                     </div>
 
                     <!-- Begin of listTemuan -->
@@ -74,7 +92,7 @@ if ($_SESSION["is_login"] == false) {
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered text-dark" id="temuanTable" width="100%"
+                                    <table class="table table-bordered text-dark" id="temuanTableMwt" width="100%"
                                         cellspacing="0">
                                         <thead>
                                             <tr>
@@ -87,7 +105,9 @@ if ($_SESSION["is_login"] == false) {
                                                 <th>PIC</th>
                                                 <th>Deadline</th>
                                                 <th>Dokumentasi TL</th>
+                                                <th>Prioritas</th>
                                                 <th>Keterangan</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -137,6 +157,108 @@ if ($_SESSION["is_login"] == false) {
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-primary" name="simpanUpdate"
                                                     id="simpanUpdate">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- Modal update End -->
+
+                            <!-- Modal update -->
+                            <div class="modal fade" id="modalEdit">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Edit</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form id="formEdit" method="POST" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <!-- method="post" -->
+                                                <input type="hidden" id="edit_temuan_id" name="temuan_id">
+                                                <div class="form-group">
+                                                    <label for="edit_tanggal">Tanggal :</label>
+                                                    <input type="date" class="form-control" id="edit_tanggal"
+                                                        name="tanggal">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_sumber_temuan">Sumber Temuan :</label>
+                                                    <select class="form-control select2" name="sumber_temuan"
+                                                        id="edit_sumber_temuan" style="width: 100%;">
+                                                        <option value="MWT">MWT</option>
+                                                        <option value="MOD">MOD</option>
+                                                        <option value="PATUH">PATUH</option>
+                                                        <option value="NOTULEN_RAPAT">NOTULEN RAPAT</option>
+                                                        <option value="LAINNYA">LAINNYA</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_temuan">Temuan :</label>
+                                                    <input type="text" class="form-control" id="edit_temuan"
+                                                        name="temuan">
+                                                </div>
+                                                <div class="form-floating">
+                                                    <label for="edit_rekomendasi_tindak_lanjut">Rekomendasi Tindak
+                                                        Lanjut :
+                                                    </label>
+                                                    <textarea class="form-control" id="edit_rekomendasi_tindak_lanjut"
+                                                        name="rekomendasi_tindak_lanjut"
+                                                        style="height: 200px; resize: none;"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_status">Status :</label>
+                                                    <select class="form-control select2" name="status" id="edit_status"
+                                                        style="width: 100%;">
+                                                        <option value="OPEN">OPEN</option>
+                                                        <option value="CLOSE">CLOSE</option>
+                                                        <option value="ON_PROGRESS">ON PROGRESS</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_pic">PIC :</label>
+                                                    <select class="form-control select2" name="pic" id="edit_pic"
+                                                        style="width: 100%;">
+                                                        <option value="RSD">RSD</option>
+                                                        <option value="PMS">PMS</option>
+                                                        <option value="HSSE">HSSE</option>
+                                                        <option value="SSGA">SSGA</option>
+                                                        <option value="QQ">QQ</option>
+                                                        <option value="FLEET">FLEET</option>
+                                                        <option value="ALL">ALL</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_deadline">Deadline :</label>
+                                                    <input type="date" class="form-control" id="edit_deadline"
+                                                        name="deadline">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="edit_dokumentasi_tl">Dokumentasi TL :</label>
+                                                    <input type="text" class="form-control" id="edit_dokumentasi_tl"
+                                                        name="dokumentasi_tl">
+                                                </div>
+                                                <div class="form-floating">
+                                                    <label for="edit_keterangan">Keterangan :
+                                                    </label>
+                                                    <textarea class="form-control" id="edit_keterangan"
+                                                        name="keterangan"
+                                                        style="height: 200px; resize: none;"></textarea>
+                                                </div>
+
+
+                                                <!-- <div class="form-group">
+                                                    <label for="edit_sumber_temuan">Sumber Temuan:</label>
+                                                    <input type="text" class="form-control" id="edit_sumber_temuan"
+                                                        name="tanggal">
+                                                </div> -->
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-primary" name="simpanEdit"
+                                                    id="simpanEdit">Simpan Edit</button>
                                             </div>
                                         </form>
                                     </div>
@@ -219,15 +341,20 @@ if ($_SESSION["is_login"] == false) {
     <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Buttons Extension JS -->
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/dataTables.buttons.min.js"></script>
+    <!-- JSZip for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <!-- Button for Excel export -->
+    <script src="https://cdn.datatables.net/buttons/2.1.1/js/buttons.html5.min.js"></script>
+
     <!-- Page level custom scripts -->
     <!-- <script src="../js/demo/datatables-demo.js"></script> -->
 
     <script>
         $(document).ready(function () {
-
-            // AJAX TABLE LIST TEMUAN
-            var tableListTemuan = $('#temuanTable').DataTable({
-                "ajax": "../../service/ajax/ajax-temuan.php",
+            var tableListTemuanMwt = $('#temuanTableMwt').DataTable({
+                "ajax": "../../service/ajax/ajax-temuan.php?sumber=mwt",
                 "columns": [{
                     "data": "no"
                 },
@@ -250,20 +377,38 @@ if ($_SESSION["is_login"] == false) {
                     "data": "pic"
                 },
                 {
-                    "data": "deadline"
+                    "data": "deadline_tw"
                 },
                 {
                     "data": "dokumentasi_tl"
                 },
                 {
+                    "data": "prioritas"
+                },
+                {
                     "data": "keterangan"
+                },
+                {
+                    "data": "action_edit",
+                    "orderable": true,
+                    "searchable": true
                 }
+                ],
+                dom: '<"d-flex justify-content-end"fB>rtip', // Posisi tombol di sebelah search bar
+                buttons: [
+                    {
+                        text: 'Unduh Excel',
+                        className: 'btn btn-success',
+                        action: function (e, dt, node, config) {
+                            window.location.href = '../../service/export/export-excel-dashboard.php';
+                        }
+                    }
                 ],
                 "responsive": true
             });
 
             // Menampilkan modal Update
-            $('#temuanTable').on('click', '.update', function () {
+            $('#temuanTableMwt').on('click', '.update', function () {
                 let temuan_id = $(this).data('temuan_id');
                 $.ajax({
                     url: '../../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
@@ -273,7 +418,7 @@ if ($_SESSION["is_login"] == false) {
                         $('#update_temuan_id').val(data.temuan_id);
                         $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
                         $('#update_status').val(data.status);
-                        $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
+                        // $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
                         $('#modalUpdate').modal('show');
                     }
                 });
@@ -293,7 +438,7 @@ if ($_SESSION["is_login"] == false) {
                     processData: false,
                     success: function (response) {
                         $('#modalUpdate').modal('hide');
-                        tableListTemuan.ajax.reload();
+                        tableListTemuanMwt.ajax.reload();
                         $('#formUpdate')[0].reset();
                         alert(response);
                     },
@@ -303,110 +448,43 @@ if ($_SESSION["is_login"] == false) {
                 });
             });
 
-            // Menampilkan modal tambah 
-            // $('#createNewTable').on('click', '.tambahTemuan', function () {
-            //     let temuan_id = $(this).data('temuan_id');
-            //     $.ajax({
-            //         url: '../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
-            //         type: 'GET',
-            //         dataType: 'json',
-            //         success: function (data) {
-            //             $('#update_temuan_id').val(data.temuan_id);
-            //             $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
-            //             $('#update_status').val(data.status);
-            //             $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
-            //             $('#modalTambah').modal('show');
-            //         }
-            //     });
-            // });
+            // Menampilkan modal Edit
+            $('#temuanTableMwt').on('click', '.edit', function () {
+                let temuan_id = $(this).data('temuan_id');
+                $.ajax({
+                    url: '../../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#edit_temuan_id').val(data.temuan_id);
+                        $('#edit_tanggal').val(data.tanggal);
+                        $('#edit_sumber_temuan').val(data.sumber_temuan);
+                        $('#edit_temuan').val(data.temuan);
+                        $('#edit_rekomendasi_tindak_lanjut').val(data.rekomendasi_tindak_lanjut);
+                        $('#edit_status').val(data.status);
+                        $('#edit_pic').val(data.pic);
+                        $('#edit_deadline').val(data.deadline);
+                        $('#edit_dokumentasi_tl').val(data.dokumentasi_tl);
+                        $('#edit_keterangan').val(data.keterangan);
+                        $('#modalEdit').modal('show');
+                    }
+                });
+            });
 
-
-
-            // simpan tandai dibaca
-            // $('#simpanUpdate').click(function () {
-            //     var data = $('#formUpdate').serialize();
-            //     $.ajax({
-            //         url: '../service/ajax/ajax-temuan.php',
-            //         type: 'POST',
-            //         data: data,
-            //         success: function (response) {
-            //             $('#modalUpdate').modal('hide');
-            //             table.ajax.reload();
-            //             alert(response);
-            //         }
-            //     });
-            // });
-
-
-
-            // Menyimpan update
-            // $('#simpanUpdate').click(function () {
-            // var dataUpdate = $('#formUpdate').serialize();
-            // $.ajax({
-            // url: '../service/ajax/ajax-temuan.php',
-            // type: 'PUT',
-            // dataUpdate: dataUpdate,
-            // success: function (response) {
-            // $('#modalUpdate').modal('hide');
-            // table.ajax.reload();
-            // $('#formUpdate')[0].reset();
-            // alert(response);
-            // }
-            // });
-            // });
-
-            // Menampilkan modal Edit User
-            // $('#pengguna_table').on('click', '.edit', function () {
-            // let user_id = $(this).data('user_id');
-            // $.ajax({
-            // url: '../service/ajax/ajax-pengguna.php?user_id=' + user_id,
-            // type: 'GET',
-            // dataType: 'json',
-            // success: function (data) {
-            // $('#edit_user_id').val(data.user_id);
-            // $('#edit_username').val(data.username);
-            // $('#edit_nama_lengkap').val(data.nama_lengkap);
-            // $('#edit_email').val(data.email);
-            // $('#edit_tanggal_lahir').val(data.tanggal_lahir);
-            // $('#edit_jenis_kelamin').val(data.jenis_kelamin);
-            // $('#edit_role').val(data.role);
-            // $('#modalEdit').modal('show');
-            // }
-            // });
-            // });
-
-            // Simpan edit user
-            // $('#simpanEdit').click(function () {
-            // var data = $('#formEdit').serialize();
-            // $.ajax({
-            // url: '../service/ajax/ajax-pengguna.php',
-            // type: 'PUT',
-            // data: data,
-            // success: function (response) {
-            // $('#modalEdit').modal('hide');
-            // table.ajax.reload();
-            // alert(response);
-            // }
-            // });
-            // });
-
-            // Delete User
-            // $('#pengguna_table').on('click', '.delete', function () {
-            // var user_id = $(this).data('user_id');
-            // if (confirm('Kamu yakin ingin menghapus pengguna ini?')) {
-            // $.ajax({
-            // url: '../service/ajax/ajax-pengguna.php',
-            // type: 'DELETE',
-            // data: {
-            // user_id: user_id
-            // },
-            // success: function (response) {
-            // table.ajax.reload();
-            // alert(response);
-            // }
-            // });
-            // }
-            // });
+            // Simpan Edit
+            $('#simpanEdit').click(function () {
+                var data = $('#formEdit').serialize();
+                $.ajax({
+                    url: '../../service/ajax/ajax-temuan.php',
+                    type: 'PUT',
+                    data: data,
+                    success: function (response) {
+                        $('#modalEdit').modal('hide');
+                        tableListTemuanMwt.ajax.reload();
+                        alert(response);
+                    }
+                });
+            });
 
         });
 

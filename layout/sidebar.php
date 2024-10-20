@@ -47,7 +47,7 @@
     <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#notulenRapatSidebar"
             aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-fw fa-file-alt"></i>
             <span>Notulen Rapat</span>
         </a>
         <div id="notulenRapatSidebar" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -55,6 +55,22 @@
                 <a class="collapse-item" href="../notulen-rapat/list-temuan.php">List Temuan</a>
                 <a class="collapse-item" href="../notulen-rapat/create-new.php">Create New</a>
                 <a class="collapse-item" href="../notulen-rapat/list-dokumen.php">List Dokumen</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#mwtSidebar" aria-expanded="true"
+            aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-project-diagram"></i>
+            <span>MWT</span>
+        </a>
+        <div id="mwtSidebar" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="../mwt/list-temuan.php">List Temuan</a>
+                <a class="collapse-item" href="../mwt/create-new.php">Create New</a>
+                <a class="collapse-item" href="../mwt/list-dokumen.php">List Dokumen</a>
             </div>
         </div>
     </li>
