@@ -107,9 +107,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $tambah_temuan = $_POST['tambah_temuan'];
     $tambah_rekomendasi_tindak_lanjut = $_POST['tambah_rekomendasi_tindak_lanjut'];
     $tambah_status = $_POST['tambah_status'];
+
     // Ubah array PIC ke string
     $pic_array = $_POST['tambah_pic'];
-    $tambah_pic = implode(', ', $pic_array);
+    $tambah_pic = implode(',', $pic_array);
 
     $tambah_deadline = $_POST['tambah_deadline'];
     $tambah_dokumentasi_tl = null;

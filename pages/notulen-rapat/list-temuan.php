@@ -166,7 +166,7 @@ if (isset($_POST["logout"])) {
                             </div>
                             <!-- Modal update End -->
 
-                            <!-- Modal update -->
+                            <!-- Modal edit -->
                             <div class="modal fade" id="modalEdit">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -218,90 +218,19 @@ if (isset($_POST["logout"])) {
                                                         <option value="ON_PROGRESS">ON PROGRESS</option>
                                                     </select>
                                                 </div>
-
-
-                                                <!-- <div class="form-group">
-                                                    <label>PIC :</label><br>
-                                                    <php
+                                                <!-- rubahlah pic di bawah ini enjadi checkbox -->
+                                                <div class="form-group">
+                                                    <label for="edit_pic">PIC :</label>
+                                                    <?php
                                                     // Array pilihan PIC yang tersedia
                                                     $pic_options = ['RSD', 'PMS', 'HSSE', 'SSGA', 'QQ', 'FLEET', 'ALL'];
 
-                                                    // Loop untuk menampilkan checkbox berdasarkan array pilihan PIC
                                                     foreach ($pic_options as $pic) {
-                                                        // Cek apakah PIC sudah dicentang sebelumnya
-                                                        $checked = in_array($pic, $pic_array) ? 'checked' : '';
-
-                                                        // Buat ID dinamis berdasarkan nilai PIC
-                                                        $id = strtolower($pic);
-
-                                                        // Tampilkan checkbox dan label
-                                                        echo '<input type="checkbox" name="edit_pic[]" value="' . $pic . '" id="' . $id . '" ' . $checked . '>';
-                                                        echo '<label class="form-check-label mr-2" for="' . $id . '"> ' . $pic . ' </label>';
+                                                        echo '<input type="checkbox" name="pic[]" value="' . $pic . '" id="edit_' . $pic . '">';
+                                                        echo '<label class="form-check-label mr-2" for="edit_' . $pic . '">' . $pic . '</label><br>';
                                                     }
                                                     ?>
-                                                </div> -->
-
-
-
-                                                <input type="text" id="edit_pic">
-
-                                                <!-- <div class="form-group">
-                                                    <label>PIC :</label><br>
-                                                    <input type="checkbox" name="edit_pic[]" value="RSD" id="rsd"
-                                                        <php if (in_array('RSD', $pic_array))
-                                                            echo 'checked'; ?>>
-                                                    <label class="form-check-label mr-2" for="rsd">
-                                                        RSD
-                                                    </label>
-                                                    <input type="checkbox" name="edit_pic[]" value="PMS" id="pms"
-                                                        <php if (in_array('PMS', $pic_array))
-                                                            echo 'checked'; ?>>
-                                                    <label class="form-check-label mr-2" for="pms">
-                                                        PMS
-                                                    </label>
-                                                    <input type="checkbox" name="edit_pic[]" value="HSSE" id="hsse"
-                                                        <php if (in_array('HSSE', $pic_array))
-                                                            echo 'checked'; ?>>
-                                                    <label class="form-check-label mr-2" for="hsse">
-                                                        HSSE
-                                                    </label>
-                                                    <input type="checkbox" name="edit_pic[]" value="SSGA" id="ssga"
-                                                        <php if (in_array('SSGA', $pic_array))
-                                                            echo 'checked'; ?>>
-                                                    <label class="form-check-label mr-2" for="ssga">
-                                                        SSGA
-                                                    </label>
-                                                    <input type="checkbox" name="edit_pic[]" value="QQ" id="qq" <php if (in_array('QQ', $pic_array))
-                                                        echo 'checked'; ?>>
-                                                    <label class="form-check-label mr-2" for="qq">
-                                                        QQ
-                                                    </label>
-                                                    <input type="checkbox" name="edit_pic[]" value="FLEET" id="fleet"
-                                                        <php if (in_array('FLEET', $pic_array))
-                                                            echo 'checked'; ?>>
-                                                    <label class="form-check-label mr-2" for="fleet">
-                                                        FLEET
-                                                    </label>
-                                                    <input type="checkbox" name="edit_pic[]" value="ALL" id="all"
-                                                        <php if (in_array('ALL', $pic_array))
-                                                            echo 'checked'; ?>>
-                                                    <label class="form-check-label mr-2" for="all">
-                                                        ALL
-                                                    </label>
-                                                </div> -->
-                                                <!-- <div class="form-group">
-                                                    <label for="edit_pic">PIC :</label>
-                                                    <select class="form-control select2" name="pic" id="edit_pic"
-                                                        style="width: 100%;">
-                                                        <option value="RSD">RSD</option>
-                                                        <option value="PMS">PMS</option>
-                                                        <option value="HSSE">HSSE</option>
-                                                        <option value="SSGA">SSGA</option>
-                                                        <option value="QQ">QQ</option>
-                                                        <option value="FLEET">FLEET</option>
-                                                        <option value="ALL">ALL</option>
-                                                    </select>
-                                                </div> -->
+                                                </div>
                                                 <div class="form-group">
                                                     <label for="edit_deadline">Deadline :</label>
                                                     <input type="date" class="form-control" id="edit_deadline"
@@ -319,13 +248,6 @@ if (isset($_POST["logout"])) {
                                                         name="keterangan"
                                                         style="height: 200px; resize: none;"></textarea>
                                                 </div>
-
-
-                                                <!-- <div class="form-group">
-                                                    <label for="edit_sumber_temuan">Sumber Temuan:</label>
-                                                    <input type="text" class="form-control" id="edit_sumber_temuan"
-                                                        name="tanggal">
-                                                </div> -->
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-primary" name="simpanEdit"
@@ -337,7 +259,7 @@ if (isset($_POST["logout"])) {
                                 </div>
                                 <!-- /.modal-dialog -->
                             </div>
-                            <!-- Modal update End -->
+                            <!-- Modal edit End -->
 
                             <!-- <div class="update-container">
 
@@ -519,7 +441,7 @@ if (isset($_POST["logout"])) {
                 });
             });
 
-            // Menampilkan modal Edit
+            // Ambil data dan Menampilkan modal Edit
             $('#temuanTableNotulenRapat').on('click', '.edit', function () {
                 let temuan_id = $(this).data('temuan_id');
                 $.ajax({
@@ -533,11 +455,20 @@ if (isset($_POST["logout"])) {
                         $('#edit_temuan').val(data.temuan);
                         $('#edit_rekomendasi_tindak_lanjut').val(data.rekomendasi_tindak_lanjut);
                         $('#edit_status').val(data.status);
-                        $('#edit_pic').val(data.pic);
                         $('#edit_deadline').val(data.deadline);
                         $('#edit_dokumentasi_tl').val(data.dokumentasi_tl);
                         $('#edit_keterangan').val(data.keterangan);
-                        $('#modalEdit').modal('show');
+
+                        // Proses untuk checkbox PIC
+                        let picArray = data.pic.split(','); // Memecah string PIC menjadi array
+                        $('input[name="pic[]"]').prop('checked', false); // Uncheck semua checkbox PIC
+
+                        // Centang checkbox berdasarkan nilai yang tersimpan
+                        picArray.forEach(function (pic) {
+                            $('#edit_' + pic).prop('checked', true);
+                        });
+
+                        $('#modalEdit').modal('show'); // tampilkan modal Edit
                     }
                 });
             });

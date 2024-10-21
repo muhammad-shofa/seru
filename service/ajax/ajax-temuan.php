@@ -16,18 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
 
-        // $data['pic_array'] = explode(', ', $data['pic']);
-
-        // Pastikan kolom pic ada di dalam $data
-        // if (isset($data['pic'])) {
-        //     // Pecah string pic menjadi array
-        //     $pic_array = explode(',', $data['pic']);
-        // } else {
-        //     // Jika tidak ada data pic, inisialisasi array kosong
-        //     $pic_array = [];
-        // }
-        // $pic_array = explode(',', $row['pic']);
-
         echo json_encode($data);
     } else if (isset($_GET["sumber"]) && $_GET["sumber"] == "notulen_rapat") {
         // Khusus menampilkan data dengan sumber_temuan NOTULEN_RAPAT
@@ -227,7 +215,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $temuan = $data["temuan"];
     $rekomendasi_tindak_lanjut = $data["rekomendasi_tindak_lanjut"];
     $status = $data["status"];
-    $pic = $data["pic"];
+    // Ubah array PIC ke string
+    $pic_array = $data['pic'];
+    $pic = implode(',', $pic_array);
+
     $deadline = $data["deadline"];
     $dokumentasi_tl = $data["dokumentasi_tl"];
     $keterangan = $data["keterangan"];
