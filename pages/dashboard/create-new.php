@@ -158,7 +158,6 @@ if (isset($_POST["logout"])) {
                                                         id="tambah_status" style="width: 100%;">
                                                         <option value="OPEN">OPEN</option>
                                                         <option value="CLOSE">CLOSE</option>
-                                                        <option value="ON_PROGRESS">ON PROGRESS</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
@@ -198,17 +197,12 @@ if (isset($_POST["logout"])) {
                                                         name="tambah_deadline">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="tambah_dokumentasi_tl">Dokumentasi TL :</label>
-                                                    <input type="text" class="form-control" id="tambah_dokumentasi_tl"
-                                                        name="tambah_dokumentasi_tl" disabled>
-                                                </div>
-                                                <div class="form-group">
                                                     <label for="tambah_prioritas">Prioritas :</label>
                                                     <select class="form-control select2" name="tambah_prioritas"
                                                         id="tambah_prioritas" style="width: 100%;">
-                                                        <option value="tinggi">Tinggi</option>
-                                                        <option value="sedang">Sedang</option>
-                                                        <option value="rendah">Rendah</option>
+                                                        <option value="TINGGI">TINGGI</option>
+                                                        <option value="SEDANG">SEDANG</option>
+                                                        <option value="RENDAH">RENDAH</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-floating">
@@ -369,55 +363,6 @@ if (isset($_POST["logout"])) {
                 });
             });
 
-            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
-            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
-            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
-            // Menampilkan modal Update
-            $('#temuanTable').on('click', '.update', function () {
-                let temuan_id = $(this).data('temuan_id');
-                $.ajax({
-                    url: '../../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#update_temuan_id').val(data.temuan_id);
-                        $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
-                        $('#update_status').val(data.status);
-                        $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
-                        $('#modalUpdate').modal('show');
-                    }
-                });
-            });
-
-            // Simpan update Dokumentasi TL
-            $('#simpanUpdate').click(function () {
-                var formData = new FormData($('#formUpdate')[0]);
-
-                formData.append('simpanUpdate', true);
-
-                $.ajax({
-                    url: '../../service/ajax/ajax-temuan.php',
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        $('#modalUpdate').modal('hide');
-                        tableListTemuan.ajax.reload();
-                        $('#formUpdate')[0].reset();
-                        alert(response);
-                    },
-                    error: function (xhr, status, error) {
-                        console.log(xhr.responseText);
-                    }
-                });
-            });
-            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
-            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
-            // APAKAH PERLU DIBERIKAN UPDATE PADA MAIN DASHBOARD CREATE NEW
-
-
-
             // Delete List Temuan
             $('#createNewTable').on('click', '.delete', function () {
                 var temuan_id = $(this).data('temuan_id');
@@ -435,94 +380,6 @@ if (isset($_POST["logout"])) {
                     });
                 }
             });
-
-
-            // Menampilkan modal tambah 
-            // $('#createNewTable').on('click', '.tambahTemuan', function () {
-            //     let temuan_id = $(this).data('temuan_id');
-            //     $.ajax({
-            //         url: '../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
-            //         type: 'GET',
-            //         dataType: 'json',
-            //         success: function (data) {
-            //             $('#update_temuan_id').val(data.temuan_id);
-            //             $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
-            //             $('#update_status').val(data.status);
-            //             $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
-            //             $('#modalTambah').modal('show');
-            //         }
-            //     });
-            // });
-
-            // simpan tandai dibaca
-            // $('#simpanUpdate').click(function () {
-            //     var data = $('#formUpdate').serialize();
-            //     $.ajax({
-            //         url: '../service/ajax/ajax-temuan.php',
-            //         type: 'POST',
-            //         data: data,
-            //         success: function (response) {
-            //             $('#modalUpdate').modal('hide');
-            //             table.ajax.reload();
-            //             alert(response);
-            //         }
-            //     });
-            // });
-
-
-
-            // Menyimpan update
-            // $('#simpanUpdate').click(function () {
-            // var dataUpdate = $('#formUpdate').serialize();
-            // $.ajax({
-            // url: '../service/ajax/ajax-temuan.php',
-            // type: 'PUT',
-            // dataUpdate: dataUpdate,
-            // success: function (response) {
-            // $('#modalUpdate').modal('hide');
-            // table.ajax.reload();
-            // $('#formUpdate')[0].reset();
-            // alert(response);
-            // }
-            // });
-            // });
-
-            // Menampilkan modal Edit User
-            // $('#pengguna_table').on('click', '.edit', function () {
-            // let user_id = $(this).data('user_id');
-            // $.ajax({
-            // url: '../service/ajax/ajax-pengguna.php?user_id=' + user_id,
-            // type: 'GET',
-            // dataType: 'json',
-            // success: function (data) {
-            // $('#edit_user_id').val(data.user_id);
-            // $('#edit_username').val(data.username);
-            // $('#edit_nama_lengkap').val(data.nama_lengkap);
-            // $('#edit_email').val(data.email);
-            // $('#edit_tanggal_lahir').val(data.tanggal_lahir);
-            // $('#edit_jenis_kelamin').val(data.jenis_kelamin);
-            // $('#edit_role').val(data.role);
-            // $('#modalEdit').modal('show');
-            // }
-            // });
-            // });
-
-            // Simpan edit user
-            // $('#simpanEdit').click(function () {
-            // var data = $('#formEdit').serialize();
-            // $.ajax({
-            // url: '../service/ajax/ajax-pengguna.php',
-            // type: 'PUT',
-            // data: data,
-            // success: function (response) {
-            // $('#modalEdit').modal('hide');
-            // table.ajax.reload();
-            // alert(response);
-            // }
-            // });
-            // });
-
-
         });
 
     </script>

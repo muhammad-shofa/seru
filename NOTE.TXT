@@ -20,3 +20,10 @@ Karena di setiap baris terdapat tombol save maka saya menyimpulkan bahwa tombol 
 menyimpan baris Notulen Rapat pada halaman List Dokumen yang nantinya dapat didownload.
 (kebingungan saya = apakah jika hanya 1 baris dari tabel Notulen Rapat yang disave, maka data
 pada file excel / pdf yang akan didownload juga hanya satu baris?)
+
+Sabtu - 21/10/2024
+-- Update --
+- memperbaiki edit PIC yang sebelumnya input biasa menjadi checkbox di modal edit.
+- menambahkan modal Tambah Notulen pada notulen-rapat/create-new.php
+- membuat kolom baru (fungsi)  di database, setelah kolom sumber_temuan
+- menyesuaikan isi tabel notulen-rapat/create-new.php sesuai dengan file ppt (tidak menampilkan sumber_temuan, melainkan fungsi)

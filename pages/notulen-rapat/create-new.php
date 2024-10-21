@@ -90,7 +90,7 @@ if (isset($_POST["logout"])) {
                                             <tr>
                                                 <th>No</th>
                                                 <th>Tanggal</th>
-                                                <th>Sumber Temuan</th>
+                                                <th>Fungsi</th>
                                                 <th>Temuan</th>
                                                 <th>Rekomendasi Tindak Lanjut</th>
                                                 <th>Status</th>
@@ -113,7 +113,7 @@ if (isset($_POST["logout"])) {
                                 <div class="modal-dialog">
                                     <div class="modal-content text-dark">
                                         <div class="modal-header">
-                                            <h4 class="modal-title">Tambah Temuan</h4>
+                                            <h4 class="modal-title">Tambah Notulen</h4>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -126,14 +126,16 @@ if (isset($_POST["logout"])) {
                                                         name="tambah_tanggal">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="tambah_sumber_temuan">Sumber Temuan :</label>
-                                                    <select class="form-control select2" name="tambah_sumber_temuan"
-                                                        id="tambah_sumber_temuan" style="width: 100%;">
-                                                        <option value="MWT">MWT</option>
-                                                        <option value="MOD">MOD</option>
-                                                        <option value="PATUH">PATUH</option>
-                                                        <option value="NOTULEN_RAPAT">NOTULEN RAPAT</option>
-                                                        <option value="LAINNYA">LAINNYA</option>
+                                                    <label for="tambah_fungsi">Fungsi :</label>
+                                                    <select class="form-control select2" name="tambah_fungsi"
+                                                        id="tambah_fungsi" style="width: 100%;">
+                                                        <option value="RSD" selected>RSD</option>
+                                                        <option value="PMS">PMS</option>
+                                                        <option value="PATUH">HSSE</option>
+                                                        <option value="SSGA">SSGA</option>
+                                                        <option value="QQ">QQ</option>
+                                                        <option value="FLEET">FLEET</option>
+                                                        <option value="FT_TUBAN">FT TUBAN</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-floating">
@@ -158,21 +160,38 @@ if (isset($_POST["logout"])) {
                                                         id="tambah_status" style="width: 100%;">
                                                         <option value="OPEN">OPEN</option>
                                                         <option value="CLOSE">CLOSE</option>
-                                                        <option value="ON_PROGRESS">ON PROGRESS</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="tambah_pic">PIC :</label>
-                                                    <select class="form-control select2" name="tambah_pic"
-                                                        id="tambah_pic" style="width: 100%;">
-                                                        <option value="RSD">RSD</option>
-                                                        <option value="PMS">PMS</option>
-                                                        <option value="HSSE">HSSE</option>
-                                                        <option value="SSGA">SSGA</option>
-                                                        <option value="QQ">QQ</option>
-                                                        <option value="FLEET">FLEET</option>
-                                                        <option value="ALL">ALL</option>
-                                                    </select>
+                                                    <label>PIC :</label><br>
+                                                    <input type="checkbox" name="tambah_pic[]" value="RSD" id="rsd">
+                                                    <label class="form-check-label mr-2" for="rsd">
+                                                        RSD
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="PMS" id="pms">
+                                                    <label class="form-check-label mr-2" for="pms">
+                                                        PMS
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="HSSE" id="hsse">
+                                                    <label class="form-check-label mr-2" for="hsse">
+                                                        HSSE
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="SSGA" id="ssga">
+                                                    <label class="form-check-label mr-2" for="ssga">
+                                                        SSGA
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="QQ" id="qq">
+                                                    <label class="form-check-label mr-2" for="qq">
+                                                        QQ
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="FLEET" id="fleet">
+                                                    <label class="form-check-label mr-2" for="fleet">
+                                                        FLEET
+                                                    </label>
+                                                    <input type="checkbox" name="tambah_pic[]" value="ALL" id="all">
+                                                    <label class="form-check-label mr-2" for="all">
+                                                        ALL
+                                                    </label>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="tambah_deadline">Deadline :</label>
@@ -180,9 +199,13 @@ if (isset($_POST["logout"])) {
                                                         name="tambah_deadline">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="tambah_dokumentasi_tl">Dokumentasi TL :</label>
-                                                    <input type="text" class="form-control" id="tambah_dokumentasi_tl"
-                                                        name="tambah_dokumentasi_tl" disabled>
+                                                    <label for="tambah_prioritas">Prioritas :</label>
+                                                    <select class="form-control select2" name="tambah_prioritas"
+                                                        id="tambah_prioritas" style="width: 100%;">
+                                                        <option value="TINGGI">TINGGI</option>
+                                                        <option value="SEDANG">SEDANG</option>
+                                                        <option value="RENDAH">RENDAH</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-floating">
                                                     <label for="tambah_keterangan">
@@ -196,6 +219,57 @@ if (isset($_POST["logout"])) {
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-success" name="tambahTemuan"
                                                     id="tambahTemuan">Tambahkan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- Modal update End -->
+
+
+                            <!-- Modal update -->
+                            <div class="modal fade" id="modalUpdate">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Update</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form id="formUpdate" method="POST" enctype="multipart/form-data">
+                                            <div class="modal-body">
+                                                <!-- method="post" -->
+                                                <input type="hidden" id="update_temuan_id" name="temuan_id">
+                                                <div class="form-floating">
+                                                    <label for="update_dokumentasi_tl">Tindak Lanjut
+                                                        Perbaikan :
+                                                    </label>
+                                                    <textarea class="form-control" id="update_dokumentasi_tl"
+                                                        name="dokumentasi_tl"
+                                                        style="height: 200px; resize: none;"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="status">Status :</label>
+                                                    <select class="form-control select2" name="status"
+                                                        id="update_status" style="width: 100%;">
+                                                        <option value="OPEN">OPEN</option>
+                                                        <option value="CLOSE">CLOSE</option>
+                                                        <option value="ON_PROGRESS">ON PROGRESS</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="update_dokumentasi_gambar"
+                                                        class="form-label">Dokumentasi :</label>
+                                                    <input class="form-control" type="file"
+                                                        id="update_dokumentasi_gambar" name="dokumentasi_gambar">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-primary" name="simpanUpdate"
+                                                    id="simpanUpdate">Update</button>
                                             </div>
                                         </form>
                                     </div>
@@ -291,7 +365,7 @@ if (isset($_POST["logout"])) {
                     "data": "tanggal"
                 },
                 {
-                    "data": "sumber_temuan"
+                    "data": "fungsi"
                 },
                 {
                     "data": "temuan"
@@ -330,7 +404,7 @@ if (isset($_POST["logout"])) {
             $('#tambahTemuan').click(function () {
                 var data = $('#formTambah').serialize();
                 $.ajax({
-                    url: '../../service/ajax/ajax-create-new.php',
+                    url: '../../service/ajax/ajax-create-new.php?sumber=notulen_rapat',
                     type: 'POST',
                     data: data,
                     success: function (response) {
@@ -342,6 +416,46 @@ if (isset($_POST["logout"])) {
                 });
             });
 
+            // Menampilkan modal Update
+            // $('#temuanTable').on('click', '.update', function () {
+            //     let temuan_id = $(this).data('temuan_id');
+            //     $.ajax({
+            //         url: '../../service/ajax/ajax-create-new.php?sumber=notulen_rapat&temuan_id=' + temuan_id,
+            //         type: 'GET',
+            //         dataType: 'json',
+            //         success: function (data) {
+            //             $('#update_temuan_id').val(data.temuan_id);
+            //             $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
+            //             $('#update_status').val(data.status);
+            //             $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
+            //             $('#modalUpdate').modal('show');
+            //         }
+            //     });
+            // });
+
+            // Simpan update Dokumentasi TL
+            // $('#simpanUpdate').click(function () {
+            //     var formData = new FormData($('#formUpdate')[0]);
+
+            //     formData.append('simpanUpdate', true);
+
+            //     $.ajax({
+            //         url: '../../service/ajax/ajax-crete-new.php?sumber=notulen_rapat',
+            //         type: 'POST',
+            //         data: formData,
+            //         contentType: false,
+            //         processData: false,
+            //         success: function (response) {
+            //             $('#modalUpdate').modal('hide');
+            //             tableListTemuan.ajax.reload();
+            //             $('#formUpdate')[0].reset();
+            //             alert(response);
+            //         },
+            //         error: function (xhr, status, error) {
+            //             console.log(xhr.responseText);
+            //         }
+            //     });
+            // });
 
             // Delete List Temuan
             $('#createNewTable').on('click', '.delete', function () {
@@ -360,6 +474,7 @@ if (isset($_POST["logout"])) {
                     });
                 }
             });
+
 
 
             // Menampilkan modal tambah 

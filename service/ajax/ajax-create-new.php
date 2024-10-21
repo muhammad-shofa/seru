@@ -17,6 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $data = $result->fetch_assoc();
         echo json_encode($data);
     } else if (isset($_GET["sumber"]) && $_GET["sumber"] == "notulen_rapat") {
+        // if (isset($_GET["temuan_id"]) && $_GET["temuan_id"] == $_GET['temuan_id']) {
+        //     echo 'ini dari notulen_rapat dengan id' . $_GET['temuan_id'];
+        // }
         // Khusus menampilkan data dengan sumber_temuan NOTULEN_RAPAT
         $result = $connected->query($select->selectTable($table_name = "temuan", $fields = "*", $condition = "WHERE sumber_temuan = 'NOTULEN_RAPAT'"));
 
@@ -31,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
             }
 
-            // Mengecek jika kolom dokumentasi_tl kosong
+            // Cek jika kolom dokumentasi_tl kosong
             // if (empty($row['dokumentasi_tl'])) {
             //     $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
             // } else {
@@ -42,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             //         $file_path = $row['dokumentasi_gambar'];
             //         $file_name = basename($file_path);
             //         $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
-            //             <i class="fas fa-download"></i></a>';
+            //                 <i class="fas fa-download"></i></a>';
             //     }
             // }
 
@@ -73,21 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 $row['tanggal'] = date("m/d/Y", strtotime($row['tanggal']));
             }
 
-            // Mengecek jika kolom dokumentasi_tl kosong
-            // if (empty($row['dokumentasi_tl'])) {
-            //     $row['dokumentasi_tl'] = '<button type="button" class="update btn btn-primary btn-sm" data-temuan_id="' . $row['temuan_id'] . '" data-toggle="modal">Update</button>';
-            // } else {
-            //     $value_dokumentasi_tl = $row['dokumentasi_tl'];
-            //     if ($row['dokumentasi_gambar'] == NULL) {
-            //         $row['dokumentasi_tl'] = $value_dokumentasi_tl;
-            //     } else {
-            //         $file_path = $row['dokumentasi_gambar'];
-            //         $file_name = basename($file_path);
-            //         $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
-            //         <i class="fas fa-download"></i></a>';
-            //     }
-            // }
-
             // Ubah tanggal ke TW
             $row['deadline_tw'] = getTriwulan($row['deadline']);
 
@@ -102,33 +90,110 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
 
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $tambah_tanggal = $_POST['tambah_tanggal'];
-    $tambah_sumber_temuan = $_POST['tambah_sumber_temuan'];
-    $tambah_temuan = $_POST['tambah_temuan'];
-    $tambah_rekomendasi_tindak_lanjut = $_POST['tambah_rekomendasi_tindak_lanjut'];
-    $tambah_status = $_POST['tambah_status'];
+    if (isset($_GET["sumber"]) && $_GET["sumber"] == "notulen_rapat") {
 
-    // Ubah array PIC ke string
-    $pic_array = $_POST['tambah_pic'];
-    $tambah_pic = implode(',', $pic_array);
+        // Simpan Update Dokumentasi TL
+        // if (isset($_POST['simpanUpdate'])) {
+        //     // Ambil data dari form
+        //     $temuan_id = $_POST['temuan_id'];
+        //     $dokumentasi_tl = $_POST['dokumentasi_tl'];
+        //     $status = $_POST['status'];
 
-    $tambah_deadline = $_POST['tambah_deadline'];
-    $tambah_dokumentasi_tl = null;
-    $tambah_dokumentasi_gambar = null;
-    $tambah_prioritas = $_POST['tambah_prioritas'];
-    $tambah_keterangan = $_POST['tambah_keterangan'];
+        //     if (isset($_FILES['dokumentasi_gambar']) && $_FILES['dokumentasi_gambar']['error'] != UPLOAD_ERR_NO_FILE) {
+        //         $dokumentasi_gambar = $_FILES['dokumentasi_gambar']['name'];
+        //         $tmp = $_FILES['dokumentasi_gambar']['tmp_name'];
+
+        //         // lokasi gambar
+        //         $location = "../../img/uploads/" . basename($dokumentasi_gambar);
+
+        //         // Pindahkan file ke folder tujuan
+        //         if (move_uploaded_file($tmp, $location)) {
+        //             $stmt = $connected->prepare($update->selectTable($tableName = "temuan", $condition = "status = ?, dokumentasi_tl = ?, dokumentasi_gambar = ? WHERE temuan_id = ?"));
+        //             $stmt->bind_param("sssi", $status, $dokumentasi_tl, $location, $temuan_id);
+
+        //             if ($stmt->execute()) {
+        //                 echo "Berhasil mengupdate data dan file.";
+        //             } else {
+        //                 echo "Gagal mengupdate: " . $stmt->error;
+        //             }
+
+        //             $stmt->close();
+        //         } else {
+        //             echo "Gagal mengunggah file.";
+        //         }
+        //     } else {
+        //         $stmt = $connected->prepare($update->selectTable($tableName = "temuan", $condition = "status = ?, dokumentasi_tl = ? WHERE temuan_id = ?"));
+        //         $stmt->bind_param("ssi", $status, $dokumentasi_tl, $temuan_id);
+
+        //         if ($stmt->execute()) {
+        //             echo "Berhasil mengupdate data.";
+        //         } else {
+        //             echo "Gagal mengupdate: " . $stmt->error;
+        //         }
+        //         $stmt->close();
+        //     }
+        // } else {
 
 
-    $stmt = $connected->prepare($insert->selectTable($table_name = "temuan", $condition = "(tanggal, sumber_temuan, temuan, rekomendasi_tindak_lanjut, status, pic, deadline, dokumentasi_tl, dokumentasi_gambar, prioritas, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"));
-    $stmt->bind_param("sssssssssss", $tambah_tanggal, $tambah_sumber_temuan, $tambah_temuan, $tambah_rekomendasi_tindak_lanjut, $tambah_status, $tambah_pic, $tambah_deadline, $tambah_dokumentasi_tl, $tambah_dokumentasi_gambar, $tambah_prioritas, $tambah_keterangan);
+        // Tambah data berdasarkan sumber= khusus
+        $tambah_tanggal = $_POST['tambah_tanggal'];
+        $tambah_sumber_temuan = "NOTULEN_RAPAT";
+        $tambah_fungsi = $_POST['tambah_fungsi'];
+        $tambah_temuan = $_POST['tambah_temuan'];
+        $tambah_rekomendasi_tindak_lanjut = $_POST['tambah_rekomendasi_tindak_lanjut'];
+        $tambah_status = $_POST['tambah_status'];
 
-    if ($stmt->execute()) {
-        echo "Berhasil menambahkan data baru";
+        // Ubah array PIC ke string
+        $pic_array = $_POST['tambah_pic'];
+        $tambah_pic = implode(',', $pic_array);
+
+        $tambah_deadline = $_POST['tambah_deadline'];
+        $tambah_dokumentasi_tl = null;
+        $tambah_dokumentasi_gambar = null;
+        $tambah_prioritas = $_POST['tambah_prioritas'];
+        $tambah_keterangan = $_POST['tambah_keterangan'];
+
+        $stmt = $connected->prepare($insert->selectTable($table_name = "temuan", $condition = "(tanggal, sumber_temuan, fungsi, temuan, rekomendasi_tindak_lanjut, status, pic, deadline, dokumentasi_tl, dokumentasi_gambar, prioritas, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"));
+        $stmt->bind_param("ssssssssssss", $tambah_tanggal, $tambah_sumber_temuan, $tambah_fungsi, $tambah_temuan, $tambah_rekomendasi_tindak_lanjut, $tambah_status, $tambah_pic, $tambah_deadline, $tambah_dokumentasi_tl, $tambah_dokumentasi_gambar, $tambah_prioritas, $tambah_keterangan);
+
+        if ($stmt->execute()) {
+            echo "Berhasil menambahkan data baru";
+        } else {
+            echo "Gagal menambahkan data baru" . $stmt->error;
+        }
+
+        $stmt->close();
+        // }
+
     } else {
-        echo "Gagal menambahkan data baru" . $stmt->error;
-    }
+        // Tambah data jika tidak ada sumber= khusus
+        $tambah_tanggal = $_POST['tambah_tanggal'];
+        $tambah_sumber_temuan = $_POST['tambah_sumber_temuan'];
+        $tambah_temuan = $_POST['tambah_temuan'];
+        $tambah_rekomendasi_tindak_lanjut = $_POST['tambah_rekomendasi_tindak_lanjut'];
+        $tambah_status = $_POST['tambah_status'];
 
-    $stmt->close();
+        // Ubah array PIC ke string
+        $pic_array = $_POST['tambah_pic'];
+        $tambah_pic = implode(',', $pic_array);
+
+        $tambah_deadline = $_POST['tambah_deadline'];
+        $tambah_dokumentasi_tl = null;
+        $tambah_dokumentasi_gambar = null;
+        $tambah_prioritas = $_POST['tambah_prioritas'];
+        $tambah_keterangan = $_POST['tambah_keterangan'];
+
+        $stmt = $connected->prepare($insert->selectTable($table_name = "temuan", $condition = "(tanggal, sumber_temuan, temuan, rekomendasi_tindak_lanjut, status, pic, deadline, dokumentasi_tl, dokumentasi_gambar, prioritas, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"));
+        $stmt->bind_param("sssssssssss", $tambah_tanggal, $tambah_sumber_temuan, $tambah_temuan, $tambah_rekomendasi_tindak_lanjut, $tambah_status, $tambah_pic, $tambah_deadline, $tambah_dokumentasi_tl, $tambah_dokumentasi_gambar, $tambah_prioritas, $tambah_keterangan);
+
+        if ($stmt->execute()) {
+            echo "Berhasil menambahkan data baru";
+        } else {
+            echo "Gagal menambahkan data baru" . $stmt->error;
+        }
+
+        $stmt->close();
+    }
 } else if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
     // Delete temuan
     parse_str(file_get_contents("php://input"), $data);
