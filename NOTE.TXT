@@ -6,6 +6,7 @@ Minggu - 20/10/2024
 dan apakah informasi tersebut memerlukan tabel tersendiri?)
 5. Export ke excel dan pdf (belum)
 6. List dokumen (belum)
+7. PIC sudah bisa input lebih dari satu, namun untuk edit-nya masih belum bisa dan masih diusahakan
 
 -- Pemahaman saya tentang Popup Modal Adopt --
 Merupakan filter untuk menampilkan Notulen Rapat dari waktu tertentu, misalnya deadline dari tanggal 22/10/2024
