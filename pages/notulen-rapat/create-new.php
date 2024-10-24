@@ -76,7 +76,81 @@ if (isset($_POST["logout"])) {
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Create New</h6>
 
-                                <!-- btn trigger modal tambah berita -->
+                                <!-- Informasi notulen baru -->
+                                <form method="post" id="infoNotulenBaru">
+                                    <table cellpadding="5">
+                                        <tbody>
+                                            <tr>
+                                                <td>Notulen Rapat No</td>
+                                                <td>:</td>
+                                                <td>
+                                                    <?php
+                                                    $result_list_dokumen = $connected->query($select->selectTable($table_name = "list_dokumen", $fields = "*"));
+                                                    if ($result_list_dokumen->num_rows > 0) {
+                                                        $data_no_notulen_real = $result_list_dokumen->fetch_assoc();
+                                                        $data_no_notulen_new = $data_no_notulen_real['no_notulen'] + 1;
+                                                        ?>
+                                                        <input type="text" class="form-control" name="no-info-notulen-baru"
+                                                            id="no-info-notulen-baru" value="<?= $data_no_notulen_new ?>">
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tanggal</td>
+                                                <td>:</td>
+                                                <td>
+                                                    <input type="date" class="form-control"
+                                                        name="tanggal-info-notulen-baru" id="tanggal-info-notulen-baru">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lokasi</td>
+                                                <td>: </td>
+                                                <td>FT Tuban</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Perihal</td>
+                                                <td>:</td>
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="perihal-info-notulen-baru" id="perihal-info-notulen-baru">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pimpinan Rapat</td>
+                                                <td>:</td>
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="pimpinan-info-notulen-baru"
+                                                        id="pimpinan-info-notulen-baru">
+                                                </td>
+                                                <td>
+                                                    Jabatan
+                                                </td>
+                                                <td>:</td>
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="jabatan-info-notulen-baru" id="jabatan-info-notulen-baru">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Notulis Rapat</td>
+                                                <td>:</td>
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="notulis-info-notulen-baru" id="notulis-info-notulen-baru">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <!-- btn save Informasi notulen baru -->
+                                    <button type="submit" name="simpanInfoNotulenBaru" class="btn btn-success my-2">
+                                        Simpan Informasi Rapat terbaru
+                                    </button>
+                                </form>
+
+                                <!-- btn modal tambah notulen -->
                                 <button type="button" class="btn btn-primary my-2" data-toggle="modal"
                                     data-target="#modalTambah">
                                     Tambah Notulen
@@ -354,6 +428,50 @@ if (isset($_POST["logout"])) {
     <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <script>
+        // Simpan informasi notulen baru ke local storage
+        document.getElementById('infoNotulenBaru').addEventListener('submit', function (e) {
+            const notulenRapatNo = document.getElementById('no-info-notulen-baru').value;
+            const tanggal = document.getElementById('tanggal-info-notulen-baru').value;
+            const lokasi = 'FT TUBAN';
+            const perihal = document.getElementById('perihal-info-notulen-baru').value;
+            const pimpinan = document.getElementById('pimpinan-info-notulen-baru').value;
+            const jabatan = document.getElementById('jabatan-info-notulen-baru').value;
+            const notulis = document.getElementById('notulis-info-notulen-baru').value;
+
+            if (notulenRapatNo && tanggal && perihal && pimpinan && jabatan && notulis) {
+                localStorage.setItem('notulen', JSON.stringify({
+                    notulenRapatNo,
+                    tanggal,
+                    lokasi,
+                    perihal,
+                    pimpinan,
+                    jabatan,
+                    notulis
+                }));
+
+                e.preventDefault();
+                alert('Data berhasil disimpan ke localStorage');
+            } else {
+                e.preventDefault();
+                alert('Semua field harus diisi.');
+            }
+        });
+
+        // Ambil data dari localStorage
+        var notulenData = localStorage.getItem('notulen');
+
+        // Parsing data JSON menjadi objek
+        var notulenObj = JSON.parse(notulenData);
+
+        // Menampilkan nilai pada input tertentu
+        if (notulenObj) {
+            document.getElementById('tanggal-info-notulen-baru').value = notulenObj.tanggal;
+            document.getElementById('perihal-info-notulen-baru').value = notulenObj.perihal;
+            document.getElementById('pimpinan-info-notulen-baru').value = notulenObj.pimpinan;
+            document.getElementById('jabatan-info-notulen-baru').value = notulenObj.jabatan;
+            document.getElementById('notulis-info-notulen-baru').value = notulenObj.notulis;
+        }
+
         $(document).ready(function () {
             // AJAX TABLE CREATE NEW
             var tableListTemuan = $('#createNewTable').DataTable({
@@ -457,6 +575,22 @@ if (isset($_POST["logout"])) {
             //     });
             // });
 
+
+            // Simpan List temuan
+            $('#createNewTable').on('click', '.save', function () {
+                var data = $('#formUpdate').serialize();
+                $.ajax({
+                    url: '../../service/ajax/ajax-create-new.php?sumber=notulen_rapat&action=save',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        // $('#modalUpdate').modal('hide');
+                        tableListTemuan.ajax.reload();
+                        alert(response);
+                    }
+                });
+            });
+
             // Delete List Temuan
             $('#createNewTable').on('click', '.delete', function () {
                 var temuan_id = $(this).data('temuan_id');
@@ -477,22 +611,7 @@ if (isset($_POST["logout"])) {
 
 
 
-            // Menampilkan modal tambah 
-            // $('#createNewTable').on('click', '.tambahTemuan', function () {
-            //     let temuan_id = $(this).data('temuan_id');
-            //     $.ajax({
-            //         url: '../service/ajax/ajax-temuan.php?temuan_id=' + temuan_id,
-            //         type: 'GET',
-            //         dataType: 'json',
-            //         success: function (data) {
-            //             $('#update_temuan_id').val(data.temuan_id);
-            //             $('#update_dokumentasi_tl').val(data.dokumentasi_tl);
-            //             $('#update_status').val(data.status);
-            //             $('#update_dokumentasi_gambar').val(data.dokumentasi_gambar);
-            //             $('#modalTambah').modal('show');
-            //         }
-            //     });
-            // });
+
 
             // simpan tandai dibaca
             // $('#simpanUpdate').click(function () {

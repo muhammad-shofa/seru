@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 } else {
                     $file_path = $row['dokumentasi_gambar'];
                     $file_name = basename($file_path);
-                    $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="../../service/download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
                       <i class="fas fa-download"></i></a>';
                 }
             }
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 } else {
                     $file_path = $row['dokumentasi_gambar'];
                     $file_name = basename($file_path);
-                    $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
+                    $row['dokumentasi_tl'] = $value_dokumentasi_tl . '<a href="../../service/download.php?temuan_id=' . $row['temuan_id'] . '" class="btn btn-success btn-sm" download title="Download ' . $file_name . '">
                     <i class="fas fa-download"></i></a>';
                 }
             }
@@ -192,7 +192,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         $tambah_dokumentasi_tl = null;
         $tambah_dokumentasi_gambar = null;
         $tambah_keterangan = $_POST['tambah_keterangan'];
-
 
         $stmt = $connected->prepare($insert->selectTable($table_name = "temuan", $condition = "(tanggal, sumber_temuan, temuan, rekomendasi_tindak_lanjut, status, pic, deadline, dokumentasi_tl, dokumentasi_gambar, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"));
         $stmt->bind_param("ssssssssss", $tambah_tanggal, $tambah_sumber_temuan, $tambah_temuan, $tambah_rekomendasi_tindak_lanjut, $tambah_status, $tambah_pic, $tambah_deadline, $tambah_dokumentasi_tl, $tambah_dokumentasi_gambar, $tambah_keterangan);

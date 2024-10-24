@@ -108,7 +108,7 @@ if (isset($_POST["logout"])) {
                                 </div>
                             </div>
 
-                            <!-- Modal create new -->
+                            <!-- Modal create new start -->
                             <div class="modal fade" id="modalTambah">
                                 <div class="modal-dialog">
                                     <div class="modal-content text-dark">
@@ -224,7 +224,7 @@ if (isset($_POST["logout"])) {
                                 </div>
                                 <!-- /.modal-dialog -->
                             </div>
-                            <!-- Modal update End -->
+                            <!-- Modal create new End -->
 
                             <!-- <div class="update-container">
 
